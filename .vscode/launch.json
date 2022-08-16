@@ -15,21 +15,8 @@
 			"interface": "swd",
 			"runToEntryPoint": "main",
 			"svdFile": "${workspaceRoot}/STM32F723.svd",
-			//"preLaunchTask": "Build all", // configured in tasks.json
-			// "preLaunchCommands": ["Build all"], // you can execute command instead of task
-			/*"configFiles": [
-				"interface/stlink-v2.cfg",
-				"target/stm32f7x.cfg"
-			],
-			"swoConfig": {
-				"enabled": true,
-				"cpuFrequency": 8000000,
-				"swoFrequency": 2000000,
-				"source": "probe",
-				"decoders": [
-				    { "type": "console", "label": "ITM", "port": 0 }
-				]
-			    }*/
+			"preLaunchTask": "CMake: build",
+			"swoConfig": {}
 		},
 		{
 			"name": "Attach",
@@ -42,8 +29,7 @@
 			"interface": "swd",
 			"runToEntryPoint": "main",
 			"svdFile": "${workspaceRoot}/STM32F723.svd",
-			//"preLaunchTask": "Build all", // configured in tasks.json
-			// "preLaunchCommands": ["Build all"], // you can execute command instead of task
+			"preLaunchTask": "CMake: build",
 			"swoConfig": {}
 		},
 	]
