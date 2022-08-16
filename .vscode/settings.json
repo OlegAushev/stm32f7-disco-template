@@ -1,6 +1,9 @@
 {
+	"cortex-debug.gdbPath": "/usr/bin/gdb-multiarch",
+	"cortex-debug.stutilPath": "/usr/bin/stlink-server",
+
 	"[Log]": {
 		"editor.fontSize": 14
 	},
-	"terminal.integrated.fontSize": 14
+	"terminal.integrated.fontSize": 14,
 }

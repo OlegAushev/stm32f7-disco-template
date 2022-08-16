@@ -59,12 +59,12 @@ EndDependencies */
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f723e_discovery_lcd.h"  
-#include "../../../Utilities/Fonts/fonts.h"
-#include "../../../Utilities/Fonts/font24.c"
-#include "../../../Utilities/Fonts/font20.c"
-#include "../../../Utilities/Fonts/font16.c"
-#include "../../../Utilities/Fonts/font12.c"
-#include "../../../Utilities/Fonts/font8.c"
+#include "../../../utils/Fonts/fonts.h"
+#include "../../../utils/Fonts/font24.c"
+#include "../../../utils/Fonts/font20.c"
+#include "../../../utils/Fonts/font16.c"
+#include "../../../utils/Fonts/font12.c"
+#include "../../../utils/Fonts/font8.c"
 
 /** @addtogroup BSP
   * @{
