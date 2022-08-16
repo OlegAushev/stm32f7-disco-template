@@ -1,6 +1,7 @@
 {
+	"cortex-debug.armToolchainPath":"/usr/bin",
+	"cortex-debug.openocdPath": "/usr/bin/openocd",
 	"cortex-debug.gdbPath": "/usr/bin/gdb-multiarch",
-	"cortex-debug.stutilPath": "/usr/bin/stlink-server",
 
 	"[Log]": {
 		"editor.fontSize": 14

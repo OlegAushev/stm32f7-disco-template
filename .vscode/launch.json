@@ -5,34 +5,46 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "STlink launch",
+			"name": "Launch",
+			"request": "launch",
 			"cwd": "${workspaceRoot}",
 			"executable": "${workspaceRoot}/build/stm32f7-disco-template.elf",
-			"request": "launch",
 			"type": "cortex-debug",
-			"servertype": "stutil",
+			"servertype": "stlink",
 			"device": "STM32F723",
 			"interface": "swd",
-			"runToMain": true, // else it starts at reset handler - not interested
+			"runToEntryPoint": "main",
+			"svdFile": "${workspaceRoot}/STM32F723.svd",
 			//"preLaunchTask": "Build all", // configured in tasks.json
 			// "preLaunchCommands": ["Build all"], // you can execute command instead of task
-			"svdFile": "${workspaceRoot}/STM32F723.svd", // Include svd to watch device peripherals
-			"swoConfig": {} // currently (v1.7.0) not supported
+			/*"configFiles": [
+				"interface/stlink-v2.cfg",
+				"target/stm32f7x.cfg"
+			],
+			"swoConfig": {
+				"enabled": true,
+				"cpuFrequency": 8000000,
+				"swoFrequency": 2000000,
+				"source": "probe",
+				"decoders": [
+				    { "type": "console", "label": "ITM", "port": 0 }
+				]
+			    }*/
 		},
 		{
-			"name": "STlink attach",
+			"name": "Attach",
+			"request": "attach",
 			"cwd": "${workspaceRoot}",
 			"executable": "${workspaceRoot}/build/stm32f7-disco-template.elf",
-			"request": "attach",
 			"type": "cortex-debug",
-			"servertype": "stutil",
+			"servertype": "stlink",
 			"device": "STM32F723",
 			"interface": "swd",
-			//"runToMain": true, // else it starts at reset handler - not interested
+			"runToEntryPoint": "main",
+			"svdFile": "${workspaceRoot}/STM32F723.svd",
 			//"preLaunchTask": "Build all", // configured in tasks.json
 			// "preLaunchCommands": ["Build all"], // you can execute command instead of task
-			"svdFile": "${workspaceRoot}/STM32F723.svd", // Include svd to watch device peripherals
-			"swoConfig": {} // currently (v1.7.0) not supported
+			"swoConfig": {}
 		},
 	]
 }
