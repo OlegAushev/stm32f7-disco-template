@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 include(gcc-arm-none-eabi.cmake)
 
 ################################################################################
-project(disco-f7 VERSION 0.1)
+project(stm32f7-disco-template VERSION 0.1)
 
 # Set microcontroller information
 set(MCU_DEVBOARD STM32F723E-Discovery)
