@@ -6,4 +6,7 @@
 		"editor.fontSize": 14
 	},
 	"terminal.integrated.fontSize": 14,
+	"files.associations": {
+		"fonts.h": "c"
+	},
 }
