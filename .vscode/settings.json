@@ -1,11 +1,11 @@
 {
 	"cortex-debug.openocdPath": "/usr/bin/openocd",
-	"cortex-debug.gdbPath": "/usr/bin/gdb-multiarch",
+	"cortex-debug.gdbPath": "/opt/arm/gdb-12.1/bin/arm-none-eabi-gdb",	//"/usr/bin/gdb-multiarch",
 
 	"[Log]": {
-		"editor.fontSize": 14
+		"editor.fontSize": 12
 	},
-	"terminal.integrated.fontSize": 14,
+	"terminal.integrated.fontSize": 12,
 	"files.associations": {
 		"fonts.h": "c"
 	},
