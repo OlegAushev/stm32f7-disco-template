@@ -14,7 +14,7 @@
 #include "stm32f723e_discovery.h"
 #include "mcu_stm32f7/system/mcu_system.h"
 
-#include "bsp/lcd_st7789h2/lcd_st7789h2.h"
+#include "bsp_f723_disco/lcd_st7789h2/lcd_st7789h2.h"
 
 
 void MX_GPIO_Init();
