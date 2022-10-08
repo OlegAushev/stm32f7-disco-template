@@ -16,6 +16,7 @@
 
 namespace mcu {
 
+
 ///
 ///
 ///
@@ -91,7 +92,6 @@ void initSystemClock()
 }
 
 
-
 ///
 ///
 ///
@@ -99,7 +99,6 @@ void onFatalError()
 {
 	
 }
-
 
 
 } // namespace mcu
