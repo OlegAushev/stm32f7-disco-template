@@ -195,8 +195,6 @@
 #define ARD_D1_USART2_TX_GPIO_Port GPIOA
 #define ARD_A0_Pin GPIO_PIN_6
 #define ARD_A0_GPIO_Port GPIOA
-#define SYS_LD_USER3_Pin GPIO_PIN_5
-#define SYS_LD_USER3_GPIO_Port GPIOA
 #define ARD_D2_GPIO_Pin GPIO_PIN_5
 #define ARD_D2_GPIO_GPIO_Port GPIOC
 #define PSRAM_A6_Pin GPIO_PIN_12
@@ -221,10 +219,6 @@
 #define LCD_PSRAM_D13_GPIO_Port GPIOD
 #define ARD_D0_USART2_RX_Pin GPIO_PIN_3
 #define ARD_D0_USART2_RX_GPIO_Port GPIOA
-#define SYS_LD_USER1_Pin GPIO_PIN_7
-#define SYS_LD_USER1_GPIO_Port GPIOA
-#define SYS_LD_USER2_Pin GPIO_PIN_1
-#define SYS_LD_USER2_GPIO_Port GPIOB
 #define ARD_D5_STMOD_TIM3_CH3_Pin GPIO_PIN_0
 #define ARD_D5_STMOD_TIM3_CH3_GPIO_Port GPIOB
 #define PMOD_RESET_Pin GPIO_PIN_11
@@ -297,10 +291,10 @@ void MX_GPIO_Init(void)
 				|CTP_RST_Pin|LCD_RST_Pin, GPIO_PIN_RESET);
 
 	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(GPIOA, USB_OTG_FS_ID_Pin|SYS_LD_USER3_Pin|SYS_LD_USER1_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOA, USB_OTG_FS_ID_Pin, GPIO_PIN_RESET);
 
 	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(GPIOB, USB_OTG_HS_ID_Pin|SYS_LD_USER2_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, USB_OTG_HS_ID_Pin, GPIO_PIN_RESET);
 
 	/*Configure GPIO pins : PEPin PEPin */
 	GPIO_InitStruct.Pin = ARD_D7_GPIO_Pin|ARD_D8_GPIO_Pin;
@@ -367,7 +361,7 @@ void MX_GPIO_Init(void)
 	HAL_GPIO_Init(GPIOH, &GPIO_InitStruct);
 
 	/*Configure GPIO pins : PAPin PAPin PAPin */
-	GPIO_InitStruct.Pin = USB_OTG_FS_ID_Pin|SYS_LD_USER3_Pin|SYS_LD_USER1_Pin;
+	GPIO_InitStruct.Pin = USB_OTG_FS_ID_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -401,7 +395,7 @@ void MX_GPIO_Init(void)
 	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 	/*Configure GPIO pins : PBPin PBPin */
-	GPIO_InitStruct.Pin = USB_OTG_HS_ID_Pin|SYS_LD_USER2_Pin;
+	GPIO_InitStruct.Pin = USB_OTG_HS_ID_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

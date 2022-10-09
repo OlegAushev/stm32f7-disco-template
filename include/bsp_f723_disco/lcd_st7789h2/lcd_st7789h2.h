@@ -18,8 +18,7 @@
 #include <cstring>
 
 
-namespace bsp
-{
+namespace bsp {
 
 
 class LCD_st7789h2
