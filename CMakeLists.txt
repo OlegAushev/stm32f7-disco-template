@@ -62,6 +62,7 @@ add_executable(${EXECUTABLE}
 
 target_compile_definitions(${EXECUTABLE} PRIVATE
 	$<$<CONFIG:Debug>:DEBUG>
+	$<$<CONFIG:Debug>:USE_FULL_ASSERT>
 	${MCU_MODEL}
 	USE_HAL_DRIVER
 )
@@ -114,7 +115,7 @@ target_link_options(${EXECUTABLE} PRIVATE
 
 target_compile_features(${EXECUTABLE} PRIVATE
 	c_std_11
-	cxx_std_17
+	cxx_std_20
 )
 
 ################################################################################
