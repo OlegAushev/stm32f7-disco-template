@@ -1,6 +1,8 @@
 # STM32 Minimal CMake project for C/C++ projects
 cmake_minimum_required(VERSION 3.12)
-include(gcc-arm-none-eabi.cmake)
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
+include(gcc-arm-none-eabi)
 
 ################################################################################
 project(stm32f7-disco-template VERSION 0.1)
