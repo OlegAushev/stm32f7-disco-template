@@ -1,7 +1,9 @@
 # Inspired by: 	https://gitlab.com/jhamberg/cmake-examples
 #		https://jonathanhamberg.com/post/cmake-embedding-git-hash/
-#		
-#
+#		https://ipenguin.ws/2012/11/cmake-automatically-use-git-tags-as.html
+#		https://github.com/iPenguin/version_git
+#		https://www.mattkeeter.com/blog/2018-01-06-versioning/
+
 
 set(CURRENT_LIST_DIR ${CMAKE_CURRENT_LIST_DIR})
 if (NOT DEFINED pre_configure_dir)
