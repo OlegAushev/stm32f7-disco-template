@@ -5,11 +5,12 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 include(gcc-arm-none-eabi)
 
 include(CheckGit)
+CheckGitSetup()
 
 ################################################################################
 project(stm32f7-disco-template VERSION 0.1)
 
-# Set microcontroller information
+# Microcontroller Information
 set(MCU_DEVBOARD STM32F723E-Discovery)
 set(MCU_FAMILY STM32F7xx)
 set(MCU_MODEL STM32F723xx)
@@ -27,7 +28,7 @@ set(EXECUTABLE ${CMAKE_PROJECT_NAME})
 enable_language(C CXX ASM)
 
 ################################################################################
-# Set headers and sources
+# Headers and Sources
 set(STM32CUBEMX_INCLUDE_DIRECTORIES
 	${PROJECT_SOURCE_DIR}/drivers/${MCU_FAMILY}_HAL_Driver
 	${PROJECT_SOURCE_DIR}/drivers/${MCU_FAMILY}_HAL_Driver/Inc
@@ -57,7 +58,7 @@ file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
 )
 
 ################################################################################
-# Set executable
+# Executable
 add_executable(${EXECUTABLE}
 	${STM32CUBEMX_SOURCES}
 	${PROJECT_SOURCES}
@@ -80,7 +81,7 @@ target_include_directories(${EXECUTABLE} PRIVATE
 )
 
 ################################################################################
-# Set compiler options and features
+# Compiler Options and Features
 target_compile_options(${EXECUTABLE} PRIVATE
 	${CPU_PARAMETERS}
 	-Wall
@@ -103,7 +104,7 @@ target_compile_options(${EXECUTABLE} PRIVATE
 )
 
 ################################################################################
-# Set linker options
+# Linker Options
 target_link_options(${EXECUTABLE} PRIVATE
 	-T${MCU_LINKER_SCRIPT}
 	${CPU_PARAMETERS}
@@ -123,6 +124,7 @@ target_compile_features(${EXECUTABLE} PRIVATE
 )
 
 ################################################################################
+# Misc Options and Post-build Tasks
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
