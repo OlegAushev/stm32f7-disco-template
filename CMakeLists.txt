@@ -62,6 +62,12 @@ add_executable(${executable}
 	${stm32cubemx_sources}
 	${project_sources}
 	${mcu_startup_script}
+	${CMAKE_BINARY_DIR}/generated/git_version.cpp
+)
+
+set_source_files_properties(
+	${CMAKE_BINARY_DIR}/generated/git_version.cpp
+	PROPERTIES GENERATED TRUE
 )
 
 target_compile_definitions(${executable} PRIVATE
@@ -78,6 +84,8 @@ target_include_directories(${executable} SYSTEM PRIVATE
 target_include_directories(${executable} PRIVATE
 	${project_incdirs}
 )
+
+add_dependencies(${executable} git-version)
 
 ################################################################################
 # Compiler Options and Features

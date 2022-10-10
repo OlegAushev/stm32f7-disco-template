@@ -79,9 +79,9 @@ function(CheckGitSetup)
 		BYPRODUCTS ${post_configure_file}
 	)
 
-	add_library(git_version ${CMAKE_BINARY_DIR}/generated/git_version.cpp)
-	target_include_directories(git_version PUBLIC ${CMAKE_BINARY_DIR}/generated)
-	add_dependencies(git_version AlwaysCheckGit)
+	add_library(git-version ${CMAKE_BINARY_DIR}/generated/git_version.cpp)
+	target_include_directories(git-version PUBLIC ${CMAKE_BINARY_DIR}/generated)
+	add_dependencies(git-version AlwaysCheckGit)
 
 	CheckGitVersion()
 endfunction()

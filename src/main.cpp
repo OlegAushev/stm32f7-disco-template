@@ -10,6 +10,8 @@
  */
 
 
+#include "build/generated/git_version.h"
+
 #include "stm32f7xx_hal.h"
 #include "stm32f723e_discovery.h"
 #include "mcu_stm32f7/system/mcu_system.h"
@@ -24,6 +26,9 @@ void MX_GPIO_Init();
 
 int main()
 {
+	
+	const char* version = GIT_HASH;
+
 	HAL_Init();
 	mcu::initSystemClock();
 	HAL_Delay(500);
@@ -33,7 +38,7 @@ int main()
 	bsp::initLedGreen();
 	
 	bsp::LCD_st7789h2::init(&Font12);
-	bsp::LCD_st7789h2::instance().print(0, "Hello world!");
+	bsp::LCD_st7789h2::instance().print(0, version);
 
 	while (1)
 	{
