@@ -9,48 +9,45 @@ CheckGitSetup()
 
 ################################################################################
 project(stm32f7-disco-template VERSION 0.1)
+enable_language(C CXX ASM)
 
 # Microcontroller Information
-set(MCU_DEVBOARD STM32F723E-Discovery)
-set(MCU_FAMILY STM32F7xx)
-set(MCU_MODEL STM32F723xx)
-set(CPU_PARAMETERS
+set(mcu_devboard STM32F723E-Discovery)
+set(mcu_family STM32F7xx)
+set(mcu_model STM32F723xx)
+set(cpu_parameters
 	-mcpu=cortex-m7
 	-mthumb
 	-mfpu=fpv5-sp-d16
 	-mfloat-abi=hard)
 
-set(MCU_STARTUP_SCRIPT ${PROJECT_SOURCE_DIR}/src/startup_stm32f723xx.s)
-set(MCU_LINKER_SCRIPT ${PROJECT_SOURCE_DIR}/STM32F723IEKx_FLASH.ld)
-################################################################################
-
-set(EXECUTABLE ${CMAKE_PROJECT_NAME})
-enable_language(C CXX ASM)
+set(mcu_startup_script ${PROJECT_SOURCE_DIR}/src/startup_stm32f723xx.s)
+set(mcu_linker_script ${PROJECT_SOURCE_DIR}/STM32F723IEKx_FLASH.ld)
 
 ################################################################################
 # Headers and Sources
-set(STM32CUBEMX_INCLUDE_DIRECTORIES
-	${PROJECT_SOURCE_DIR}/drivers/${MCU_FAMILY}_HAL_Driver
-	${PROJECT_SOURCE_DIR}/drivers/${MCU_FAMILY}_HAL_Driver/Inc
-	${PROJECT_SOURCE_DIR}/drivers/${MCU_FAMILY}_HAL_Driver/Inc/Legacy
-	${PROJECT_SOURCE_DIR}/drivers/CMSIS/Device/ST/${MCU_FAMILY}/Include
+set(stm32cubemx_incdirs
+	${PROJECT_SOURCE_DIR}/drivers/${mcu_family}_HAL_Driver
+	${PROJECT_SOURCE_DIR}/drivers/${mcu_family}_HAL_Driver/Inc
+	${PROJECT_SOURCE_DIR}/drivers/${mcu_family}_HAL_Driver/Inc/Legacy
+	${PROJECT_SOURCE_DIR}/drivers/CMSIS/Device/ST/${mcu_family}/Include
 	${PROJECT_SOURCE_DIR}/drivers/CMSIS/Include
 	${PROJECT_SOURCE_DIR}/drivers/BSP/Components
-	${PROJECT_SOURCE_DIR}/drivers/BSP/${MCU_DEVBOARD}
+	${PROJECT_SOURCE_DIR}/drivers/BSP/${mcu_devboard}
 )
 
-set(PROJECT_INCLUDE_DIRECTORIES
+set(project_incdirs
 	${PROJECT_SOURCE_DIR}
 	${PROJECT_SOURCE_DIR}/include
 	${PROJECT_SOURCE_DIR}/src
 )
 
-file(GLOB_RECURSE STM32CUBEMX_SOURCES CONFIGURE_DEPENDS
-	${PROJECT_SOURCE_DIR}/drivers/${MCU_FAMILY}_HAL_Driver/*.c
+file(GLOB_RECURSE stm32cubemx_sources CONFIGURE_DEPENDS
+	${PROJECT_SOURCE_DIR}/drivers/${mcu_family}_HAL_Driver/*.c
 	${PROJECT_SOURCE_DIR}/drivers/BSP/*.c
 )
 
-file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
+file(GLOB_RECURSE project_sources CONFIGURE_DEPENDS
 	${PROJECT_SOURCE_DIR}/include/*.c
 	${PROJECT_SOURCE_DIR}/include/*.cpp
 	${PROJECT_SOURCE_DIR}/src/*.c
@@ -59,31 +56,33 @@ file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
 
 ################################################################################
 # Executable
-add_executable(${EXECUTABLE}
-	${STM32CUBEMX_SOURCES}
-	${PROJECT_SOURCES}
-	${MCU_STARTUP_SCRIPT}
+set(executable ${CMAKE_PROJECT_NAME})
+
+add_executable(${executable}
+	${stm32cubemx_sources}
+	${project_sources}
+	${mcu_startup_script}
 )
 
-target_compile_definitions(${EXECUTABLE} PRIVATE
+target_compile_definitions(${executable} PRIVATE
 	$<$<CONFIG:Debug>:DEBUG>
 	$<$<CONFIG:Debug>:USE_FULL_ASSERT>
-	${MCU_MODEL}
+	${mcu_model}
 	USE_HAL_DRIVER
 )
 
-target_include_directories(${EXECUTABLE} SYSTEM PRIVATE
-	${STM32CUBEMX_INCLUDE_DIRECTORIES}
+target_include_directories(${executable} SYSTEM PRIVATE
+	${stm32cubemx_incdirs}
 )
 
-target_include_directories(${EXECUTABLE} PRIVATE
-	${PROJECT_INCLUDE_DIRECTORIES}
+target_include_directories(${executable} PRIVATE
+	${project_incdirs}
 )
 
 ################################################################################
 # Compiler Options and Features
-target_compile_options(${EXECUTABLE} PRIVATE
-	${CPU_PARAMETERS}
+target_compile_options(${executable} PRIVATE
+	${cpu_parameters}
 	-Wall
 	-Wextra
 	-Wpedantic
@@ -105,9 +104,9 @@ target_compile_options(${EXECUTABLE} PRIVATE
 
 ################################################################################
 # Linker Options
-target_link_options(${EXECUTABLE} PRIVATE
-	-T${MCU_LINKER_SCRIPT}
-	${CPU_PARAMETERS}
+target_link_options(${executable} PRIVATE
+	-T${mcu_linker_script}
+	${cpu_parameters}
 	-Wl,-Map=${CMAKE_PROJECT_NAME}.map
 	--specs=nosys.specs
 	-Wl,--start-group
@@ -118,7 +117,7 @@ target_link_options(${EXECUTABLE} PRIVATE
 	-Wl,--print-memory-usage
 )
 
-target_compile_features(${EXECUTABLE} PRIVATE
+target_compile_features(${executable} PRIVATE
 	c_std_11
 	cxx_std_20
 )
@@ -128,15 +127,15 @@ target_compile_features(${EXECUTABLE} PRIVATE
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_custom_command(TARGET ${EXECUTABLE} POST_BUILD
-	COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${EXECUTABLE}>
-	COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${EXECUTABLE}> ${EXECUTABLE}.hex
-	COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${EXECUTABLE}> ${EXECUTABLE}.bin
+add_custom_command(TARGET ${executable} POST_BUILD
+	COMMAND ${CMAKE_SIZE} $<TARGET_FILE:${executable}>
+	COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:${executable}> ${executable}.hex
+	COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${executable}> ${executable}.bin
 )
 
 if (${DUMP_ASM})
-	add_custom_command(TARGET ${EXECUTABLE} POST_BUILD
-		COMMAND ${CMAKE_OBJDUMP} -D $<TARGET_FILE:${EXECUTABLE}> > ${EXECUTABLE}.s)
+	add_custom_command(TARGET ${executable} POST_BUILD
+		COMMAND ${CMAKE_OBJDUMP} -D $<TARGET_FILE:${executable}> > ${executable}.s)
 endif()
 
 
