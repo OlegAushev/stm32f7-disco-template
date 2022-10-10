@@ -1,4 +1,8 @@
+# Inspired by: 	https://gitlab.com/jhamberg/cmake-examples
+#		https://jonathanhamberg.com/post/cmake-embedding-git-hash/
+#		
 #
+
 set(CURRENT_LIST_DIR ${CMAKE_CURRENT_LIST_DIR})
 if (NOT DEFINED pre_configure_dir)
 	set(pre_configure_dir ${CMAKE_CURRENT_LIST_DIR})
@@ -14,8 +18,13 @@ set(post_configure_file ${post_configure_dir}/git_version.cpp)
 
 #
 #
-function(CheckGitWrite git_hash)
-	file(WRITE ${CMAKE_BINARY_DIR}/git-state.txt ${git_hash})
+function(CheckGitWrite git_describe git_hash git_diff git_branch)
+	file(WRITE ${CMAKE_BINARY_DIR}/git-state.txt
+		${git_describe}\n
+		${git_hash}\n
+		${git_diff}\n
+		${git_branch}
+	)
 endfunction()
 
 
@@ -34,6 +43,22 @@ endfunction()
 #
 #
 function(CheckGitVersion)
+	execute_process(
+		COMMAND git describe --tags --long --always #--dirty=-dirty
+		WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+		OUTPUT_VARIABLE GIT_DESCRIBE
+		ERROR_QUIET
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+
+
+	# Get "+" if there are uncommitted changes
+	execute_process(
+		COMMAND bash -c "git diff --quiet --exit-code || echo +"
+		OUTPUT_VARIABLE GIT_DIFF
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+
 	# Get the latest abbreviated commit hash of the working branch
 	execute_process(
 		COMMAND git log -1 --format=%h
@@ -41,6 +66,20 @@ function(CheckGitVersion)
 		OUTPUT_VARIABLE GIT_HASH
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
+
+	# Get current branch name
+	execute_process(
+		COMMAND git rev-parse --abbrev-ref HEAD
+		OUTPUT_VARIABLE GIT_BRANCH
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+
+
+
+
+
+
+
 
 	CheckGitRead(GIT_HASH_CACHE)
 	if (NOT EXISTS ${post_configure_dir})
@@ -60,7 +99,7 @@ function(CheckGitVersion)
 	if (NOT ${GIT_HASH} STREQUAL ${GIT_HASH_CACHE} OR NOT EXISTS ${post_configure_file})
 		# Set che GIT_HASH_CACHE variable the next build won't have
 		# to regenerate the source file.
-		CheckGitWrite(${GIT_HASH})
+		CheckGitWrite(${GIT_DESCRIBE} ${GIT_HASH} ${GIT_DIFF} ${GIT_BRANCH})
 
 		configure_file(${pre_configure_file} ${post_configure_file} @ONLY)
 	endif ()
