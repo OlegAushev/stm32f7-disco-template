@@ -51,19 +51,18 @@ function(CheckGitVersion)
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
 
-
-	# Get "+" if there are uncommitted changes
-	execute_process(
-		COMMAND bash -c "git diff --quiet --exit-code || echo +"
-		OUTPUT_VARIABLE GIT_DIFF
-		OUTPUT_STRIP_TRAILING_WHITESPACE
-	)
-
 	# Get the latest abbreviated commit hash of the working branch
 	execute_process(
 		COMMAND git log -1 --format=%h
 		WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 		OUTPUT_VARIABLE GIT_HASH
+		OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+
+	# Get "+" if there are uncommitted changes
+	execute_process(
+		COMMAND bash -c "git diff --quiet --exit-code || echo +"
+		OUTPUT_VARIABLE GIT_DIFF
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
 
@@ -99,7 +98,7 @@ function(CheckGitVersion)
 	if (NOT ${GIT_HASH} STREQUAL ${GIT_HASH_CACHE} OR NOT EXISTS ${post_configure_file})
 		# Set che GIT_HASH_CACHE variable the next build won't have
 		# to regenerate the source file.
-		CheckGitWrite(${GIT_DESCRIBE} ${GIT_HASH} ${GIT_DIFF} ${GIT_BRANCH})
+		CheckGitWrite(${GIT_DESCRIBE} ${GIT_HASH} "${GIT_DIFF}" ${GIT_BRANCH})
 
 		configure_file(${pre_configure_file} ${post_configure_file} @ONLY)
 	endif ()
