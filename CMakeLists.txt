@@ -4,14 +4,14 @@ cmake_minimum_required(VERSION 3.12)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 include(gcc-arm-none-eabi)
 
+project(stm32f7-disco-template VERSION 0.1)
+enable_language(C CXX ASM)
+
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/check-git)
 include(CheckGit)
 CheckGitSetup()
 
 ################################################################################
-project(stm32f7-disco-template VERSION 0.1)
-enable_language(C CXX ASM)
-
 # Microcontroller Information
 set(mcu_devboard STM32F723E-Discovery)
 set(mcu_family STM32F7xx)
