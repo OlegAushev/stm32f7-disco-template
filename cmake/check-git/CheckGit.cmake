@@ -52,6 +52,7 @@ function(CheckGitVersion)
 	# Get "+" if there are uncommitted changes
 	execute_process(
 		COMMAND bash -c "git diff --quiet --exit-code || echo +"
+		WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 		OUTPUT_VARIABLE GIT_DIFF
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
@@ -59,6 +60,7 @@ function(CheckGitVersion)
 	# Get current branch name
 	execute_process(
 		COMMAND git rev-parse --abbrev-ref HEAD
+		WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
 		OUTPUT_VARIABLE GIT_BRANCH
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
