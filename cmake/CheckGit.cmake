@@ -32,18 +32,6 @@ endfunction()
 
 #
 #
-function(CheckGitRead git_hash)
-	if (EXISTS ${CMAKE_BINARY_DIR}/git-state.txt)
-		file(STRINGS ${CMAKE_BINARY_DIR}/git-state.txt CONTENT)
-		LIST(GET CONTENT 0 var)
-
-		set(${git_hash} ${var} PARENT_SCOPE)
-	endif ()
-endfunction()
-
-
-#
-#
 function(CheckGitVersion)
 	execute_process(
 		COMMAND git describe --tags --long --always #--dirty=-dirty
@@ -75,14 +63,6 @@ function(CheckGitVersion)
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
 
-
-
-
-
-
-
-
-	CheckGitRead(GIT_HASH_CACHE)
 	if (NOT EXISTS ${post_configure_dir})
 		file(MAKE_DIRECTORY ${post_configure_dir})
 	endif ()
@@ -91,32 +71,22 @@ function(CheckGitVersion)
 		file(COPY ${pre_configure_dir}/git_version.h DESTINATION ${post_configure_dir})
 	endif()
 
-	if (NOT DEFINED GIT_HASH_CACHE)
-		set(GIT_HASH_CACHE "INVALID")
-	endif ()
-
-	# Only update the git_version.cpp if the hash has changed. This will
-	# prevent us from rebuilding the project more than we need to.
-	if (NOT ${GIT_HASH} STREQUAL ${GIT_HASH_CACHE} OR NOT EXISTS ${post_configure_file})
-		# Set che GIT_HASH_CACHE variable the next build won't have
-		# to regenerate the source file.
-		CheckGitWrite(${GIT_DESCRIBE} ${GIT_HASH} "${GIT_DIFF}" ${GIT_BRANCH})
-
-		configure_file(${pre_configure_file} ${post_configure_file} @ONLY)
-	endif ()
+	CheckGitWrite(${GIT_DESCRIBE} ${GIT_HASH} "${GIT_DIFF}" ${GIT_BRANCH})
+	configure_file(${pre_configure_file} ${post_configure_file} @ONLY)
 endfunction()
 
 
 #
 #
 function(CheckGitSetup)
-	add_custom_target(AlwaysCheckGit COMMAND ${CMAKE_COMMAND}
+	add_custom_target(AlwaysCheckGit
+		COMMAND ${CMAKE_COMMAND}
 		-DRUN_CHECK_GIT_VERSION=1
 		-Dpre_configure_dir=${pre_configure_dir}
 		-Dpost_configure_file=${post_configure_dir}
-		-DGIT_HASH_CACHE=${GIT_HASH_CACHE}
 		-P ${CURRENT_LIST_DIR}/CheckGit.cmake
 		BYPRODUCTS ${post_configure_file}
+		COMMENT "Checking git, generating git-version.cpp"
 	)
 
 	add_library(git-version ${CMAKE_BINARY_DIR}/generated/git_version.cpp)

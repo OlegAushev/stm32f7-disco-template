@@ -65,11 +65,6 @@ add_executable(${executable}
 	${CMAKE_BINARY_DIR}/generated/git_version.cpp
 )
 
-set_source_files_properties(
-	${CMAKE_BINARY_DIR}/generated/git_version.cpp
-	PROPERTIES GENERATED TRUE
-)
-
 target_compile_definitions(${executable} PRIVATE
 	$<$<CONFIG:Debug>:DEBUG>
 	$<$<CONFIG:Debug>:USE_FULL_ASSERT>
