@@ -27,7 +27,7 @@ void MX_GPIO_Init();
 int main()
 {
 	
-	const char* version = GIT_HASH;
+	const char* version = GIT_DESCRIBE;
 
 	HAL_Init();
 	mcu::initSystemClock();
