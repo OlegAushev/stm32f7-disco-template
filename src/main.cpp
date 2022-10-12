@@ -26,7 +26,6 @@ void MX_GPIO_Init();
 
 int main()
 {
-	
 	const char* version = GIT_DESCRIBE;
 
 	HAL_Init();
@@ -44,10 +43,10 @@ int main()
 	{
 		bsp::ledRed.set();
 		bsp::ledGreen.reset();
-		HAL_Delay(100);
+		mcu::delay_ms(100);
 		bsp::ledRed.reset();
 		bsp::ledGreen.set();
-		HAL_Delay(900);	
+		mcu::delay_ms(900);
 	}
 }
 

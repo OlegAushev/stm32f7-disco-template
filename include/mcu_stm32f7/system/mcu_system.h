@@ -27,8 +27,34 @@ namespace mcu {
 /// @{
 
 
+/**
+ * @brief Initializes system clock.
+ * 
+ * @param (none)
+ * @return (none) 
+ */
 void initSystemClock();
+
+
+/**
+ * @brief On fatal error callback.
+ * 
+ * @param (none)
+ * @return (none) 
+ */
 void onFatalError();
+
+
+/**
+ * @brief Delays for a number of milliseconds.
+ * 
+ * @param delay delay in milliseconds
+ * @return (none)
+ */
+inline void delay_ms(uint32_t delay)
+{
+	HAL_Delay(delay);
+}
 
 
 /// @}
