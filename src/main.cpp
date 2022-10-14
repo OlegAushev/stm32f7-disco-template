@@ -31,6 +31,8 @@ int main()
 	HAL_Init();
 	mcu::initSystemClock();
 	HAL_Delay(500);
+	mcu::Gpio::enableClocks();
+
 	MX_GPIO_Init();
 
 	bsp::initLedRed();
