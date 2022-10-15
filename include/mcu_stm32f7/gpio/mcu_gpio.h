@@ -15,6 +15,7 @@
 
 #include "stm32f7xx_hal.h"
 #include "emb/emb_interfaces/emb_gpio.h"
+#include "../mcu_def.h"
 
 
 namespace mcu {
@@ -79,7 +80,7 @@ public:
 
 	/**
 	 * @brief Constructs GPIO input pin.
-	 * @param cfg - pin config
+	 * @param cfg pin config
 	 */
 	GpioInput(const GpioConfig& cfg)
 	{
@@ -88,7 +89,7 @@ public:
 
 	/**
 	 * @brief Initializes GPIO input pin.
-	 * @param cfg - pin config
+	 * @param cfg pin config
 	 * @return (none)
 	 */
 	void init(const GpioConfig& cfg)
@@ -110,65 +111,75 @@ public:
 				- (HAL_GPIO_ReadPin(m_cfg.port, static_cast<uint16_t>(m_cfg.pin.Pin))
 				^ static_cast<uint32_t>(m_cfg.activeState)));
 	}
-#ifdef  NOT_IMPLEMENTED
+
+private:
+	IRQn_Type m_irqn {NonMaskableInt_IRQn};	// use NonMaskableInt_IRQn as value for not initialized interrupt
 public:
 	/**
-	 * @brief Sets the pin for the specified external interrupt.
-	 * @param intNum - interrupt number
-	 * @return (none)
+	 * @brief Initializes interrupt.
+	 * 
+	 * @param handler interrupt handler
+	 * @param priority interrupt priority [0..15]
 	 */
-#ifdef CPU1
-	void setInterrupt(GPIO_ExternalIntNum intNum)
+	void initInterrupt(void (*handler)(void), InterruptPriority priority)
 	{
-		GPIO_setInterruptPin(m_cfg.no, intNum);	// X-Bar may be configured on CPU1 only
-	}
-#endif
-
-	/**
-	 * @brief Registers interrupt handler.
-	 * @param intNum - interrupt number
-	 * @param intType - interrupt type
-	 * @param handler - pointer to handler
-	 */
-	void registerInterruptHandler(GPIO_ExternalIntNum intNum, GPIO_IntType intType, void (*handler)(void))
-	{
-		m_intNum = intNum;
-		GPIO_setInterruptType(intNum, intType);
-		Interrupt_register(detail::PIE_XINT_NUMBERS[intNum], handler);
-		Interrupt_enable(detail::PIE_XINT_NUMBERS[m_intNum]);
+		switch (m_cfg.pin.Pin)
+		{
+		case GPIO_PIN_0:
+			m_irqn = EXTI0_IRQn;
+			break;
+		case GPIO_PIN_1:
+			m_irqn = EXTI1_IRQn;
+			break;
+		case GPIO_PIN_2:
+			m_irqn = EXTI2_IRQn;
+			break;
+		case GPIO_PIN_3:
+			m_irqn = EXTI3_IRQn;
+			break;
+		case GPIO_PIN_4:
+			m_irqn = EXTI4_IRQn;
+			break;
+		case GPIO_PIN_5: case GPIO_PIN_6: case GPIO_PIN_7: case GPIO_PIN_8: case GPIO_PIN_9:
+			m_irqn = EXTI9_5_IRQn;
+			break;
+		case GPIO_PIN_10: case GPIO_PIN_11: case GPIO_PIN_12: case GPIO_PIN_13: case GPIO_PIN_14: case GPIO_PIN_15:
+			m_irqn = EXTI15_10_IRQn;
+			break;
+		default:
+			m_irqn = NonMaskableInt_IRQn;
+			break;
+		}
+		HAL_NVIC_SetPriority(m_irqn, priority.value(), 0);
 	}
 
 	/**
 	 * @brief Enables interrupts.
+	 * 
 	 * @param (none)
 	 * @return (none)
 	 */
 	void enableInterrupts() const
 	{
-		GPIO_enableInterrupt(m_intNum);
-
+		if (m_irqn != NonMaskableInt_IRQn)
+		{
+			HAL_NVIC_EnableIRQ(m_irqn);
+		}
 	}
 
 	/**
 	 * @brief Disables interrupts.
+	 * 
 	 * @param (none)
 	 * @return (none)
 	 */
 	void disableInterrupts() const
 	{
-		GPIO_disableInterrupt(m_intNum);
+		if (m_irqn != NonMaskableInt_IRQn)
+		{
+			HAL_NVIC_EnableIRQ(m_irqn);
+		}
 	}
-
-	/**
-	 * @brief Acknowledges interrupt.
-	 * @param (none)
-	 * @return (none)
-	 */
-	void acknowledgeInterrupt() const
-	{
-		Interrupt_clearACKGroup(detail::PIE_XINT_GROUPS[m_intNum]);
-	}
-#endif
 };
 
 
@@ -187,7 +198,7 @@ public:
 
 	/**
 	 * @brief Constructs GPIO output pin.
-	 * @param cfg - pin config
+	 * @param cfg pin config
 	 */
 	GpioOutput(const GpioConfig& cfg)
 	{
@@ -196,7 +207,7 @@ public:
 
 	/**
 	 * @brief Initializes GPIO output pin.
-	 * @param cfg - pin config
+	 * @param cfg pin config
 	 * @return (none)
 	 */
 	void init(const GpioConfig& cfg)
@@ -221,7 +232,7 @@ public:
 
 	/**
 	 * @brief Sets pin state.
-	 * @param state - pin state
+	 * @param state pin state
 	 * @return (none)
 	 */
 	virtual void set(emb::PinState state = emb::PinState::ACTIVE) const override
