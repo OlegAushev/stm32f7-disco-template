@@ -16,8 +16,8 @@
 namespace bsp {
 
 
-mcu::GpioInput wakeupButton;
-const mcu::GpioConfig wakeupButtonConfig = {	.port = WAKEUP_BUTTON_GPIO_PORT,
+mcu::gpio::Input wakeupButton;
+const mcu::gpio::Config wakeupButtonConfig = {	.port = WAKEUP_BUTTON_GPIO_PORT,
 						.pin = {.Pin = WAKEUP_BUTTON_PIN,
 							.Mode = GPIO_MODE_IT_RISING_FALLING,
 							.Pull = GPIO_NOPULL,

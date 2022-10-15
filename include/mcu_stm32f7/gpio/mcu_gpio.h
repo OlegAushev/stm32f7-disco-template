@@ -25,12 +25,24 @@
 namespace mcu {
 
 
-struct GpioConfig
+namespace gpio {
+
+
+struct Config
 {
 	GPIO_TypeDef* port;
 	GPIO_InitTypeDef pin;
 	emb::PinActiveState activeState;
 };
+
+
+/**
+ * @brief Enables all gpio ports clocks.
+ * 
+ * @param (none)
+ * @return (none)
+ */
+void enableClocks();
 
 
 /*============================================================================*/
@@ -40,7 +52,7 @@ struct GpioConfig
 class Gpio
 {
 protected:
-	GpioConfig m_cfg;
+	Config m_cfg;
 	bool m_initialized;
 	Gpio() : m_initialized(false) {}
 public:
@@ -49,22 +61,9 @@ public:
 	 * @param (none)
 	 * @return Reference to pin config.
 	 */
-	const GpioConfig& config() const
+	const Config& config() const
 	{
 		return m_cfg;
-	}
-
-	static void enableClocks()
-	{
-		__HAL_RCC_GPIOA_CLK_ENABLE();
-		__HAL_RCC_GPIOB_CLK_ENABLE();
-		__HAL_RCC_GPIOC_CLK_ENABLE();
-		__HAL_RCC_GPIOD_CLK_ENABLE();
-		__HAL_RCC_GPIOE_CLK_ENABLE();
-		__HAL_RCC_GPIOF_CLK_ENABLE();
-		__HAL_RCC_GPIOG_CLK_ENABLE();
-		__HAL_RCC_GPIOH_CLK_ENABLE();
-		__HAL_RCC_GPIOI_CLK_ENABLE();
 	}
 
 	/**
@@ -80,20 +79,20 @@ public:
 /**
  * @brief GPIO input pin class.
  */
-class GpioInput : public emb::IGpioInput, public Gpio
+class Input : public emb::IGpioInput, public Gpio
 {
 public:
 	/**
 	 * @brief GPIO input pin default constructor.
 	 * @param (none)
 	 */
-	GpioInput() {}
+	Input() {}
 
 	/**
 	 * @brief Constructs GPIO input pin.
 	 * @param cfg pin config
 	 */
-	GpioInput(const GpioConfig& cfg)
+	Input(const Config& cfg)
 	{
 		init(cfg);
 	}
@@ -103,7 +102,7 @@ public:
 	 * @param cfg pin config
 	 * @return (none)
 	 */
-	void init(const GpioConfig& cfg)
+	void init(const Config& cfg)
 	{
 		m_cfg = cfg;
 		HAL_GPIO_Init(m_cfg.port, &m_cfg.pin);
@@ -210,20 +209,20 @@ public:
 /**
  * @brief GPIO output pin class.
  */
-class GpioOutput : public emb::IGpioOutput, public Gpio
+class Output : public emb::IGpioOutput, public Gpio
 {
 public:
 	/**
 	 * @brief GPIO output pin default constructor.
 	 * @param (none)
 	 */
-	GpioOutput() {}
+	Output() {}
 
 	/**
 	 * @brief Constructs GPIO output pin.
 	 * @param cfg pin config
 	 */
-	GpioOutput(const GpioConfig& cfg)
+	Output(const Config& cfg)
 	{
 		init(cfg);
 	}
@@ -233,7 +232,7 @@ public:
 	 * @param cfg pin config
 	 * @return (none)
 	 */
-	void init(const GpioConfig& cfg)
+	void init(const Config& cfg)
 	{
 		m_cfg = cfg;
 		HAL_GPIO_Init(m_cfg.port, &m_cfg.pin);
@@ -289,21 +288,9 @@ public:
 };
 
 
+} // namespace gpio
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+} // namespace mcu
 
 

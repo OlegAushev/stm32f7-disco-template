@@ -13,7 +13,24 @@
 #include "mcu_gpio.h"
 
 
-std::array<std::function<void(void)>, 16> mcu::GpioInput::s_interruptHandlers = {
+/// 
+///
+///
+void mcu::gpio::enableClocks()
+{
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOB_CLK_ENABLE();
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOD_CLK_ENABLE();
+	__HAL_RCC_GPIOE_CLK_ENABLE();
+	__HAL_RCC_GPIOF_CLK_ENABLE();
+	__HAL_RCC_GPIOG_CLK_ENABLE();
+	__HAL_RCC_GPIOH_CLK_ENABLE();
+	__HAL_RCC_GPIOI_CLK_ENABLE();
+}
+
+
+std::array<std::function<void(void)>, 16> mcu::gpio::Input::s_interruptHandlers = {
 	emb::invalidFunction, emb::invalidFunction, emb::invalidFunction, emb::invalidFunction,
 	emb::invalidFunction, emb::invalidFunction, emb::invalidFunction, emb::invalidFunction,
 	emb::invalidFunction, emb::invalidFunction, emb::invalidFunction, emb::invalidFunction,
@@ -30,7 +47,7 @@ std::array<std::function<void(void)>, 16> mcu::GpioInput::s_interruptHandlers = 
 extern "C" void EXTI0_IRQHandler(void)
 {
 	__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_0);
-	mcu::GpioInput::onInterrupt(0);
+	mcu::gpio::Input::onInterrupt(0);
 }
 
 
@@ -43,7 +60,7 @@ extern "C" void EXTI0_IRQHandler(void)
 extern "C" void EXTI1_IRQHandler(void)
 {
 	__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_1);
-	mcu::GpioInput::onInterrupt(1);
+	mcu::gpio::Input::onInterrupt(1);
 }
 
 
@@ -56,7 +73,7 @@ extern "C" void EXTI1_IRQHandler(void)
 extern "C" void EXTI2_IRQHandler(void)
 {
 	__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_2);
-	mcu::GpioInput::onInterrupt(2);
+	mcu::gpio::Input::onInterrupt(2);
 }
 
 
@@ -69,7 +86,7 @@ extern "C" void EXTI2_IRQHandler(void)
 extern "C" void EXTI3_IRQHandler(void)
 {
 	__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_3);
-	mcu::GpioInput::onInterrupt(3);
+	mcu::gpio::Input::onInterrupt(3);
 }
 
 
@@ -82,7 +99,7 @@ extern "C" void EXTI3_IRQHandler(void)
 extern "C" void EXTI4_IRQHandler(void)
 {
 	__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_4);
-	mcu::GpioInput::onInterrupt(4);
+	mcu::gpio::Input::onInterrupt(4);
 }
 
 
@@ -126,7 +143,7 @@ extern "C" void EXTI15_10_IRQHandler(void)
  */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	mcu::GpioInput::onInterrupt(POSITION_VAL(GPIO_Pin));
+	mcu::gpio::Input::onInterrupt(POSITION_VAL(GPIO_Pin));
 }
 
 

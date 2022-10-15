@@ -38,7 +38,7 @@ int main()
 	HAL_Init();
 	mcu::initSystemClock();
 	HAL_Delay(500);
-	mcu::Gpio::enableClocks();
+	mcu::gpio::enableClocks();
 
 	MX_GPIO_Init();
 
