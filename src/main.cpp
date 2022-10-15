@@ -10,6 +10,8 @@
  */
 
 
+#include <sstream>
+
 #include "build/generated/git_version.h"
 
 #include "stm32f7xx_hal.h"
@@ -38,8 +40,24 @@ int main()
 	bsp::initLedRed();
 	bsp::initLedGreen();
 	
-	bsp::LCD_st7789h2::init(&Font12);
+	bsp::LCD_st7789h2::init(&Font16);
 	bsp::LCD_st7789h2::instance().print(0, version);
+
+	std::stringstream sstr;
+	sstr << "red: " << bsp::ledRed.no() << "; green: " << bsp::ledGreen.no();
+	bsp::LCD_st7789h2::instance().print(1, sstr.str().c_str());
+
+
+	mcu::GpioConfig buttonCfg = {	.port = WAKEUP_BUTTON_GPIO_PORT,
+					.pin = {.Pin = WAKEUP_BUTTON_PIN,
+						.Mode = GPIO_MODE_IT_FALLING,
+						.Pull = GPIO_NOPULL,
+						.Speed = GPIO_SPEED_FREQ_LOW,
+						.Alternate = 0},
+					.activeState = emb::PinActiveState::HIGH};
+	mcu::GpioInput button(buttonCfg);
+	button.initInterrupt(std::bind(&bsp::LCD_st7789h2::print, &bsp::LCD_st7789h2::instance(), 3, "interrupt!"), mcu::InterruptPriority(2));
+	button.enableInterrupts();
 
 	while (1)
 	{
@@ -49,6 +67,8 @@ int main()
 		bsp::ledRed.reset();
 		bsp::ledGreen.set();
 		mcu::delay_ms(900);
+
+		bsp::LCD_st7789h2::instance().clearLine(3);
 	}
 }
 

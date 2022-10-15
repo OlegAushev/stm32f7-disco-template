@@ -13,7 +13,11 @@
 #pragma once
 
 
+#include <array>
+#include <functional>
+
 #include "stm32f7xx_hal.h"
+#include "emb/emb_def.h"
 #include "emb/emb_interfaces/emb_gpio.h"
 #include "../mcu_def.h"
 
@@ -62,6 +66,13 @@ public:
 		__HAL_RCC_GPIOH_CLK_ENABLE();
 		__HAL_RCC_GPIOI_CLK_ENABLE();
 	}
+
+	/**
+	 * @brief Returns pin number.
+	 * 
+	 * @return Pin number 
+	 */
+	uint32_t no() const { return POSITION_VAL(m_cfg.pin.Pin); }
 };
 
 
@@ -114,6 +125,7 @@ public:
 
 private:
 	IRQn_Type m_irqn {NonMaskableInt_IRQn};	// use NonMaskableInt_IRQn as value for not initialized interrupt
+	static std::array<std::function<void(void)>, 16> s_interruptHandlers;
 public:
 	/**
 	 * @brief Initializes interrupt.
@@ -121,7 +133,7 @@ public:
 	 * @param handler interrupt handler
 	 * @param priority interrupt priority [0..15]
 	 */
-	void initInterrupt(void (*handler)(void), InterruptPriority priority)
+	void initInterrupt(std::function<void(void)> handler, InterruptPriority priority)
 	{
 		switch (m_cfg.pin.Pin)
 		{
@@ -148,9 +160,10 @@ public:
 			break;
 		default:
 			m_irqn = NonMaskableInt_IRQn;
-			break;
+			return;
 		}
 		HAL_NVIC_SetPriority(m_irqn, priority.value(), 0);
+		s_interruptHandlers[this->no()] = handler;
 	}
 
 	/**
@@ -179,6 +192,16 @@ public:
 		{
 			HAL_NVIC_EnableIRQ(m_irqn);
 		}
+	}
+
+	/**
+	 * @brief Executes interrupt handler for specified pin.
+	 * 
+	 * @param pinNo Pin number
+	 */
+	static void onInterrupt(size_t pinNo)
+	{
+		s_interruptHandlers[pinNo]();
 	}
 };
 
