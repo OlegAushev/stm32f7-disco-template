@@ -17,6 +17,16 @@
 namespace mcu {
 
 
+/**
+ * @brief Mandatory HAL-lib tick handler.
+ * 
+ */
+extern "C" void SysTick_Handler(void)
+{
+	HAL_IncTick();
+}
+
+
 ///
 ///
 ///

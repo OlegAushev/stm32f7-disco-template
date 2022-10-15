@@ -21,6 +21,7 @@
 
 #include "bsp_f723_disco/lcd_st7789h2/lcd_st7789h2.h"
 #include "bsp_f723_disco/leds/leds.h"
+#include "bsp_f723_disco/button/button.h"
 
 
 void MX_GPIO_Init();
@@ -39,6 +40,7 @@ int main()
 
 	bsp::initLedRed();
 	bsp::initLedGreen();
+	bsp::initWakeupButton();
 	
 	bsp::LCD_st7789h2::init(&Font16);
 	bsp::LCD_st7789h2::instance().print(0, version);
@@ -46,18 +48,9 @@ int main()
 	std::stringstream sstr;
 	sstr << "red: " << bsp::ledRed.no() << "; green: " << bsp::ledGreen.no();
 	bsp::LCD_st7789h2::instance().print(1, sstr.str().c_str());
-
-
-	mcu::GpioConfig buttonCfg = {	.port = WAKEUP_BUTTON_GPIO_PORT,
-					.pin = {.Pin = WAKEUP_BUTTON_PIN,
-						.Mode = GPIO_MODE_IT_FALLING,
-						.Pull = GPIO_NOPULL,
-						.Speed = GPIO_SPEED_FREQ_LOW,
-						.Alternate = 0},
-					.activeState = emb::PinActiveState::HIGH};
-	mcu::GpioInput button(buttonCfg);
-	button.initInterrupt(std::bind(&bsp::LCD_st7789h2::print, &bsp::LCD_st7789h2::instance(), 3, "interrupt!"), mcu::InterruptPriority(2));
-	button.enableInterrupts();
+	
+	bsp::wakeupButton.initInterrupt(bsp::onWakeupButtonInterrupt, mcu::InterruptPriority(2));
+	bsp::wakeupButton.enableInterrupts();
 
 	while (1)
 	{
@@ -67,19 +60,21 @@ int main()
 		bsp::ledRed.reset();
 		bsp::ledGreen.set();
 		mcu::delay_ms(900);
-
-		bsp::LCD_st7789h2::instance().clearLine(3);
 	}
 }
 
 
-/**
- * @brief Mandatory HAL-lib tick handler.
- * 
- */
-extern "C" void SysTick_Handler(void)
+
+
+void bsp::onWakeupButtonInterrupt()
 {
-	HAL_IncTick();
+	bsp::LCD_st7789h2::instance().clearLine(2);
+	if (bsp::wakeupButton.read() == emb::PinState::ACTIVE)
+	{
+		bsp::LCD_st7789h2::instance().print(2, "pressed");
+	}
+	else
+	{
+		bsp::LCD_st7789h2::instance().print(2, "released");
+	}
 }
-
-
