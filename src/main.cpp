@@ -11,8 +11,6 @@
 
 
 #include <sstream>
-#include "emb/emb_algorithm.h"
-#include "emb/emb_string.h"
 
 #include "build/generated/git_version.h"
 
@@ -20,6 +18,7 @@
 #include "stm32f723e_discovery.h"
 #include "mcu_stm32f7/system/mcu_system.h"
 #include "mcu_stm32f7/gpio/mcu_gpio.h"
+#include "mcu_stm32f7/uart/mcu_uart.h"
 
 #include "bsp_f723_disco/lcd_st7789h2/lcd_st7789h2.h"
 #include "bsp_f723_disco/leds/leds.h"
@@ -45,6 +44,8 @@ int main()
 	bsp::initLedRed();
 	bsp::initLedGreen();
 	bsp::initWakeupButton();
+
+	
 	
 	bsp::LCD_st7789h2::init(&Font16);
 	bsp::LCD_st7789h2::instance().print(0, version);
