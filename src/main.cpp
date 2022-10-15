@@ -11,6 +11,8 @@
 
 
 #include <sstream>
+#include "emb/emb_algorithm.h"
+#include "emb/emb_string.h"
 
 #include "build/generated/git_version.h"
 
@@ -25,6 +27,8 @@
 
 
 void MX_GPIO_Init();
+
+
 
 
 int main()
