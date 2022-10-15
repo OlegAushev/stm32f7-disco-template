@@ -13,6 +13,10 @@
 #pragma once
 
 
+#include <cstddef>
+#include <cassert>
+
+
 namespace emb {
 
 
