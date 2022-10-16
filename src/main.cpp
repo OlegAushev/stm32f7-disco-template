@@ -86,13 +86,6 @@ int main()
 
 	while (1)
 	{
-		bsp::ledRed.set();
-		bsp::ledGreen.reset();
-		mcu::delay_ms(100);
-		bsp::ledRed.reset();
-		bsp::ledGreen.set();
-		mcu::delay_ms(900);
-
 		cliServer.run();
 	}
 }

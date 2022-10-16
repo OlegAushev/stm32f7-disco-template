@@ -57,6 +57,8 @@ private:
 	UART_HandleTypeDef m_handle;
 	mcu::gpio::Input rxPin;
 	mcu::gpio::Output txPin;
+
+	static const uint32_t TIMEOUT_ms = 1000;
 public:
 	/**
 	 * @brief Construct a new Uart object
@@ -118,13 +120,21 @@ public:
 
 	virtual int send(char ch) override
 	{
-
+		if (HAL_UART_Transmit(&m_handle, reinterpret_cast<const uint8_t*>(&ch), 1, TIMEOUT_ms) != HAL_OK)
+		{
+			return 0;
+		}
+		return 1;
 	}
 
 
 	virtual int send(const char* buf, size_t len) override
 	{
-		
+		if (HAL_UART_Transmit(&m_handle, reinterpret_cast<const uint8_t*>(buf), len, TIMEOUT_ms) != HAL_OK)
+		{
+			return 0;
+		}
+		return 1;
 	}
 };
 

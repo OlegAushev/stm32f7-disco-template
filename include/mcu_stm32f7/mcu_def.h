@@ -21,6 +21,9 @@ namespace mcu {
 /// @{
 
 
+using HalStatus = HAL_StatusTypeDef;
+
+
 /**
  * @brief Interrupt priority helper class.
  * 
