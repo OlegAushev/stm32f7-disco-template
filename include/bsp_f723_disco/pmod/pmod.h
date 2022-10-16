@@ -23,6 +23,13 @@
 #define PMOD_SEL_1_PIN		GPIO_PIN_10
 
 
+#define PMOD2_TX_PORT		GPIOF
+#define PMOD2_TX_PIN		GPIO_PIN_7
+
+#define PMOD3_RX_PORT		GPIOF
+#define PMOD3_RX_PIN		GPIO_PIN_6
+
+
 namespace bsp {
 
 

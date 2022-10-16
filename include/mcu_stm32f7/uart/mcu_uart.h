@@ -50,7 +50,7 @@ struct Config
 };
 
 
-template <USART_TypeDef* Module>
+template <unsigned int Module>
 class Uart : public emb::IUart
 {
 private:
@@ -58,8 +58,17 @@ private:
 	mcu::gpio::Input rxPin;
 	mcu::gpio::Output txPin;
 public:
+	/**
+	 * @brief Construct a new Uart object
+	 * 
+	 * @param rxPinCfg 
+	 * @param txPinCfg 
+	 * @param cfg 
+	 */
 	Uart(const RxPinConfig& rxPinCfg, TxPinConfig txPinCfg, const Config& cfg)
 	{
+		static_assert(Module >= 1 && Module <= 8);
+
 		rxPin.init({.port = rxPinCfg.port, 
 				.pin = {.Pin = rxPinCfg.pin,
 					.Mode = GPIO_MODE_INPUT,
@@ -76,23 +85,46 @@ public:
 					.Alternate = txPinCfg.afSelection},
 				.activeState = emb::PinActiveState::HIGH});
 
-		if constexpr (Module == USART1) { __HAL_RCC_USART1_CLK_ENABLE(); }
-		else if constexpr (Module == USART2) { __HAL_RCC_USART2_CLK_ENABLE(); }
-		else if constexpr (Module == USART3) { __HAL_RCC_USART3_CLK_ENABLE(); }
-		else if constexpr (Module == UART4) { __HAL_RCC_UART4_CLK_ENABLE(); }
-		else if constexpr (Module == UART5) { __HAL_RCC_UART5_CLK_ENABLE(); }
-		else if constexpr (Module == USART6) { __HAL_RCC_USART6_CLK_ENABLE(); }
-		else if constexpr (Module == UART7) { __HAL_RCC_UART7_CLK_ENABLE(); }
-		else if constexpr (Module == UART8) { __HAL_RCC_UART8_CLK_ENABLE(); }
+		if constexpr (Module == 1)	{ __HAL_RCC_USART1_CLK_ENABLE(); m_handle.Instance = USART1; }
+		else if constexpr (Module == 2)	{ __HAL_RCC_USART2_CLK_ENABLE(); m_handle.Instance = USART2; }
+		else if constexpr (Module == 3)	{ __HAL_RCC_USART3_CLK_ENABLE(); m_handle.Instance = USART3; }
+		else if constexpr (Module == 4)	{ __HAL_RCC_UART4_CLK_ENABLE(); m_handle.Instance = UART4; }
+		else if constexpr (Module == 5)	{ __HAL_RCC_UART5_CLK_ENABLE(); m_handle.Instance = UART5; }
+		else if constexpr (Module == 6)	{ __HAL_RCC_USART6_CLK_ENABLE(); m_handle.Instance = USART6; }
+		else if constexpr (Module == 7)	{ __HAL_RCC_UART7_CLK_ENABLE(); m_handle.Instance = UART7; }
+		else if constexpr (Module == 8)	{ __HAL_RCC_UART8_CLK_ENABLE(); m_handle.Instance = UART8; }
 		else { onFatalError(); }
 
-		m_handle.Instance = Module;
 		m_handle.Init = cfg.base;
 		m_handle.AdvancedInit = cfg.advanced;
 		if (HAL_UART_Init(&m_handle) != HAL_OK)
 		{
 			onFatalError();
 		}
+	}
+
+
+	virtual int recv(char& ch) override
+	{
+
+	}
+
+
+	virtual int recv(char* buf, size_t len) override
+	{
+
+	}
+
+
+	virtual int send(char ch) override
+	{
+
+	}
+
+
+	virtual int send(const char* buf, size_t len) override
+	{
+		
 	}
 };
 
