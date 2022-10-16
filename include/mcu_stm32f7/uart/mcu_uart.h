@@ -73,8 +73,8 @@ public:
 
 		rxPin.init({.port = rxPinCfg.port, 
 				.pin = {.Pin = rxPinCfg.pin,
-					.Mode = GPIO_MODE_INPUT,
-					.Pull = GPIO_NOPULL,
+					.Mode = GPIO_MODE_AF_PP,
+					.Pull = GPIO_PULLUP,
 					.Speed = GPIO_SPEED_FREQ_HIGH,
 					.Alternate = rxPinCfg.afSelection},
 				.activeState = emb::PinActiveState::HIGH});
@@ -108,13 +108,24 @@ public:
 
 	virtual int recv(char& ch) override
 	{
-
+		if (HAL_UART_Receive(&m_handle, reinterpret_cast<uint8_t*>(&ch), 1, 0) != HAL_OK)
+		{
+			return 0;
+		}
+		return 1;
 	}
 
 
 	virtual int recv(char* buf, size_t len) override
 	{
+		size_t i = 0;
+		char ch = 0;
 
+		while ((i < len) && (recv(ch) == 1))
+		{
+			buf[i++] = ch;
+		}
+		return i;
 	}
 
 
@@ -130,7 +141,7 @@ public:
 
 	virtual int send(const char* buf, size_t len) override
 	{
-		if (HAL_UART_Transmit(&m_handle, reinterpret_cast<const uint8_t*>(buf), len, TIMEOUT_ms) != HAL_OK)
+		if (HAL_UART_Transmit(&m_handle, reinterpret_cast<const uint8_t*>(buf), static_cast<uint16_t>(len), TIMEOUT_ms) != HAL_OK)
 		{
 			return 0;
 		}
