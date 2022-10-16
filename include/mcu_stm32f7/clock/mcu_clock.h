@@ -26,7 +26,7 @@ extern "C" void SysTick_Handler();
 namespace mcu {
 
 
-class SystemClock : public emb::NonCopyable
+class SystemClock : private emb::NonCopyable
 {
 	friend void ::SysTick_Handler();
 public:

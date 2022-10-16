@@ -51,7 +51,7 @@ struct Config
 
 
 template <unsigned int Module>
-class Uart : public emb::IUart, public emb::NonCopyable
+class Uart : public emb::IUart, private emb::NonCopyable
 {
 private:
 	UART_HandleTypeDef m_handle;
