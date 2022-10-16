@@ -23,6 +23,7 @@
 #include "bsp_f723_disco/lcd_st7789h2/lcd_st7789h2.h"
 #include "bsp_f723_disco/leds/leds.h"
 #include "bsp_f723_disco/button/button.h"
+#include "bsp_f723_disco/pmod/pmod.h"
 
 
 void MX_GPIO_Init();
@@ -44,7 +45,7 @@ int main()
 	bsp::initLedRed();
 	bsp::initLedGreen();
 	bsp::initWakeupButton();
-
+	bsp::initPmod(bsp::PmodConfiguration::UART);
 	
 	
 	bsp::LCD_st7789h2::init(&Font16);
