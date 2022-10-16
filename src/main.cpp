@@ -10,6 +10,7 @@
  */
 
 
+#include <string>
 #include <sstream>
 
 #include "build/generated/git_version.h"
@@ -19,6 +20,7 @@
 #include "mcu_stm32f7/system/mcu_system.h"
 #include "mcu_stm32f7/gpio/mcu_gpio.h"
 #include "mcu_stm32f7/uart/mcu_uart.h"
+#include "mcu_stm32f7/clock/mcu_clock.h"
 
 #include "bsp_f723_disco/bsp_f723_disco_def.h"
 #include "bsp_f723_disco/lcd_st7789h2/lcd_st7789h2.h"
@@ -76,16 +78,16 @@ int main()
 	cli::nextline_blocking();
 	cli::print_blocking(CLI_WELCOME_STRING);
 
+	/* CLOCk */
+	mcu::SystemClock::init();
+
 	/* TEST */
-	std::stringstream sstr;
-	sstr << "red: " << bsp::ledRed.no() << "; green: " << bsp::ledGreen.no();
-	bsp::LCD_st7789h2::instance().print(1, sstr.str().c_str());
-	
 	bsp::wakeupButton.initInterrupt(bsp::onWakeupButtonInterrupt, mcu::InterruptPriority(2));
 	bsp::wakeupButton.enableInterrupts();
 
 	while (1)
 	{
+		bsp::LCD_st7789h2::instance().print(1, std::to_string(mcu::SystemClock::now()).c_str());
 		cliServer.run();
 	}
 }

@@ -2,11 +2,9 @@
 #pragma once
 
 
-#include <stdint.h>
-#include <stddef.h>
-#include <assert.h>
 #include <cstring>
 
+#include "emb_def.h"
 #include "emb_algorithm.h"
 
 

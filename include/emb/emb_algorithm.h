@@ -2,10 +2,9 @@
 #pragma once
 
 
-#include <stdint.h>
-#include <stddef.h>
 #include <utility>
 
+#include "emb_def.h"
 
 namespace emb {
 

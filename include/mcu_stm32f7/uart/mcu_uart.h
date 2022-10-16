@@ -14,8 +14,8 @@
 
 
 #include "emb/emb_interfaces/emb_uart.h"
+#include "emb/emb_core.h"
 
-#include "stm32f7xx_hal.h"
 #include "../mcu_def.h"
 #include "../system/mcu_system.h"
 #include "../gpio/mcu_gpio.h"
@@ -51,14 +51,14 @@ struct Config
 
 
 template <unsigned int Module>
-class Uart : public emb::IUart
+class Uart : public emb::IUart, public emb::NonCopyable
 {
 private:
 	UART_HandleTypeDef m_handle;
 	mcu::gpio::Input rxPin;
 	mcu::gpio::Output txPin;
 
-	static const uint32_t TIMEOUT_ms = 1000;
+	static constexpr uint32_t TIMEOUT_ms = 1000;
 public:
 	/**
 	 * @brief Construct a new Uart object
@@ -104,7 +104,7 @@ public:
 			onFatalError();
 		}
 	}
-
+	
 
 	virtual int recv(char& ch) override
 	{

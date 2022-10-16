@@ -13,6 +13,8 @@
 #pragma once
 
 
+#include <cassert>
+
 #include "stm32f7xx_hal.h"
 
 

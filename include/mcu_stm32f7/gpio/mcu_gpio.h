@@ -15,10 +15,9 @@
 
 #include <array>
 #include <functional>
-#include "emb/emb_def.h"
+#include "emb/emb_core.h"
 #include "emb/emb_interfaces/emb_gpio.h"
 
-#include "stm32f7xx_hal.h"
 #include "../mcu_def.h"
 
 

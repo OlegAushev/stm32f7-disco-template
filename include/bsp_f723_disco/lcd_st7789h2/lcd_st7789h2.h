@@ -16,6 +16,7 @@
 #include "stm32f723e_discovery_lcd.h"
 #include "mcu_stm32f7/system/mcu_system.h"
 #include <cstring>
+#include <cassert>
 
 
 namespace bsp {

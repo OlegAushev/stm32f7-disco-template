@@ -24,6 +24,8 @@ void MX_FMC_Init();
 ///
 LCD_st7789h2::LCD_st7789h2(sFONT* font)
 {
+	assert(font != nullptr);
+
 	MX_FMC_Init();
 	BSP_LCD_Init();
 	BSP_LCD_Clear(LCD_COLOR_BLACK);

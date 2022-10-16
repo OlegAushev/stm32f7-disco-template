@@ -13,6 +13,7 @@
 #pragma once
 
 
+#include <cstdint>
 #include <cstddef>
 #include <cassert>
 
@@ -20,8 +21,7 @@
 namespace emb {
 
 
-inline void emptyFunction() {}
-inline void invalidFunction() { while (true) {} }
+
 
 
 } // namespace emb
