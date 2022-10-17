@@ -18,6 +18,14 @@
 #include <cassert>
 
 
+/**
+ * @brief UNIQ_ID implementation
+ * 
+ */
+#define EMB_UNIQ_ID_IMPL(arg) a_local_var_##arg
+#define EMB_UNIQ_ID(arg) EMB_UNIQ_ID_IMPL(arg)
+
+
 namespace emb {
 
 

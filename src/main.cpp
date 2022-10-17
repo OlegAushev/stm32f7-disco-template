@@ -85,6 +85,8 @@ int main()
 	bsp::buttonWakeup.initInterrupt(bsp::onButtonWakeupInterrupt, mcu::InterruptPriority(2));
 	bsp::buttonWakeup.enableInterrupts();
 
+
+
 	while (1)
 	{
 		mcu::SystemClock::runTasks();
