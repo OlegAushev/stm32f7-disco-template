@@ -84,10 +84,7 @@ public:
 	static bool initialized() { return s_initialized; }
 };
 
-//template <class T>
-//bool Monostate<T>::s_initialized = false;
-
-
-
 
 } // namespace emb
+
+

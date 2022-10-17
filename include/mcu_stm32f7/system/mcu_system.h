@@ -22,18 +22,28 @@
 #include "../mcu_def.h"
 
 
+void MX_GPIO_Init();
+
+
 namespace mcu {
 /// @addtogroup mcu_system
 /// @{
 
 
 /**
- * @brief Initializes system clock.
+ * @brief Initializes device clock.
  * 
  * @param (none)
  * @return (none) 
  */
-void initSystemClock();
+void initDeviceClock();
+
+
+/**
+ * @brief Resets device.
+ * 
+ */
+void resetDevice();
 
 
 /**

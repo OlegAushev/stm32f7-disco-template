@@ -32,17 +32,17 @@
 #include "cli/shell/cli_shell.h"
 
 
-void MX_GPIO_Init();
-
-
-
-
+/**
+ * @brief 
+ * 
+ * @return int 
+ */
 int main()
 {
 	const char* version = GIT_DESCRIBE;
 
 	HAL_Init();
-	mcu::initSystemClock();
+	mcu::initDeviceClock();
 	HAL_Delay(500);
 	mcu::gpio::enableClocks();
 
@@ -85,11 +85,10 @@ int main()
 	bsp::buttonWakeup.initInterrupt(bsp::onButtonWakeupInterrupt, mcu::InterruptPriority(2));
 	bsp::buttonWakeup.enableInterrupts();
 
-	emb::fatal_error("fatal error test");
-
 	while (1)
 	{
-		bsp::LCD_st7789h2::instance().print(1, std::to_string(mcu::SystemClock::now()).c_str());
+		mcu::SystemClock::runTasks();
+		//bsp::LCD_st7789h2::instance().print(1, std::to_string(mcu::SystemClock::now()).c_str());
 		cliServer.run();
 	}
 }

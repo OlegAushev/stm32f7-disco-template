@@ -34,7 +34,7 @@ public:
 	static void init();
 private:
 	static inline volatile uint64_t m_time {0};
-	static constexpr uint32_t TIME_STEP = 1;
+	static constexpr uint64_t TIME_STEP = 1;
 	static constexpr size_t TASK_COUNT = 4;
 
 /* periodic tasks */
@@ -76,6 +76,25 @@ public:
 		m_tasks[index] = task;
 	}
 
+/* delayed task */
+private:
+	static inline uint64_t m_delayedTaskStart;
+	static inline uint64_t m_delayedTaskDelay;
+	static inline std::function<void(void)> m_delayedTask;
+public:
+	/**
+	 * @brief Registers delayed task.
+	 * 
+	 * @param task delayed task function
+	 * @return (none)
+	 */
+	static void registerDelayedTask(std::function<void(void)> task, uint64_t delay)
+	{
+		m_delayedTask = task;
+		m_delayedTaskStart = now();
+		m_delayedTaskDelay = delay;
+	}
+
 public:
 	/**
 	 * @brief Returns a time point representing the current point in time.
@@ -110,6 +129,12 @@ public:
 		m_time = 0;
 		m_taskTimestamps.fill(0);
 	}
+
+	/**
+	 * @brief Checks and runs periodic and delayed tasks.
+	 * 
+	 */
+	static void runTasks(); 
 
 protected:
 	/**

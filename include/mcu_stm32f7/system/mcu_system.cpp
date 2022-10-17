@@ -20,7 +20,7 @@ namespace mcu {
 ///
 ///
 ///
-void initSystemClock()
+void initDeviceClock()
 {
 	RCC_OscInitTypeDef RCC_OscInitStruct = {};
 	RCC_ClkInitTypeDef RCC_ClkInitStruct = {};
@@ -89,6 +89,15 @@ void initSystemClock()
 	{
 		onFatalError();
 	}
+}
+
+
+///
+///
+///
+void resetDevice()
+{
+	NVIC_SystemReset();
 }
 
 
