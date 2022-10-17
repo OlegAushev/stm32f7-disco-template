@@ -66,7 +66,7 @@ int main()
 							.Parity = UART_PARITY_NONE,
 							.Mode = UART_MODE_TX_RX,
 							.HwFlowCtl = UART_HWCONTROL_NONE},
-					.advanced = {.AdvFeatureInit = UART_ADVFEATURE_NO_INIT}};
+					.advanced = {	.AdvFeatureInit = UART_ADVFEATURE_NO_INIT}};
 	mcu::uart::Uart<7> uart7(uart7RxPinCfg, uart7TxPinCfg, uart7Cfg);
 
 	/* CLI */
@@ -78,7 +78,7 @@ int main()
 	cli::nextline_blocking();
 	cli::print_blocking(CLI_WELCOME_STRING);
 
-	/* CLOCk */
+	/* CLOCK */
 	mcu::SystemClock::init();
 
 	/* TEST */

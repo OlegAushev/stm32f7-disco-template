@@ -31,10 +31,10 @@ void mcu::gpio::enableClocks()
 
 
 std::array<std::function<void(void)>, 16> mcu::gpio::Input::s_interruptHandlers = {
-	emb::invalidFunction, emb::invalidFunction, emb::invalidFunction, emb::invalidFunction,
-	emb::invalidFunction, emb::invalidFunction, emb::invalidFunction, emb::invalidFunction,
-	emb::invalidFunction, emb::invalidFunction, emb::invalidFunction, emb::invalidFunction,
-	emb::invalidFunction, emb::invalidFunction, emb::invalidFunction, emb::invalidFunction,
+	emb::invalid_function, emb::invalid_function, emb::invalid_function, emb::invalid_function,
+	emb::invalid_function, emb::invalid_function, emb::invalid_function, emb::invalid_function,
+	emb::invalid_function, emb::invalid_function, emb::invalid_function, emb::invalid_function,
+	emb::invalid_function, emb::invalid_function, emb::invalid_function, emb::invalid_function,
 };
 
 

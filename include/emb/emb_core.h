@@ -19,10 +19,28 @@
 namespace emb {
 
 
-inline void emptyFunction() {}
-inline void invalidFunction() { while (true) {} }
+inline void empty_function()
+{
+
+}
 
 
+[[ noreturn ]] inline void invalid_function()
+{
+	while (true) {}
+}
+
+
+[[ noreturn ]] inline void fatal_error(const char* hint, int num = 0)
+{
+	while (true) {}
+}
+
+
+/**
+ * @brief 
+ * 
+ */
 class NonCopyable
 {
 public:
@@ -31,6 +49,39 @@ public:
 	NonCopyable& operator=(const NonCopyable& other) = delete;
 	virtual ~NonCopyable() = default;
 };
+
+
+/**
+ * @brief 
+ * 
+ * @tparam T 
+ */
+template <class T>
+class Monostate
+{
+private:
+	static inline bool s_initialized {false};
+protected:
+	Monostate()
+	{
+		assert(s_initialized);
+		if (!s_initialized) { fatal_error("uninitialized monostate class"); }
+	}
+
+	static void setInitialized()
+	{
+		assert(!s_initialized);
+		if (s_initialized) { fatal_error("repeated initialization of monostate class"); }
+		s_initialized = true;
+	}
+public:
+	static bool initialized() { return s_initialized; }
+};
+
+//template <class T>
+//bool Monostate<T>::s_initialized = false;
+
+
 
 
 } // namespace emb
