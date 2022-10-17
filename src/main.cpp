@@ -85,7 +85,6 @@ int main()
 	bsp::buttonWakeup.initInterrupt(bsp::onButtonWakeupInterrupt, mcu::InterruptPriority(2));
 	bsp::buttonWakeup.enableInterrupts();
 
-
 	while (1)
 	{
 		mcu::SystemClock::runTasks();
@@ -129,6 +128,7 @@ void emb::fatal_error_cb(const char* hint, int code)
 	cli::nextline_blocking();
 	cli::print_blocking("Terminate...");
 	cli::nextline_blocking();
+	bsp::ledRed.set();
 }
 
 

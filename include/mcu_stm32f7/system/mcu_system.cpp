@@ -46,13 +46,13 @@ void initDeviceClock()
 	RCC_OscInitStruct.PLL.PLLQ = 10;
 	if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
 	{
-		onFatalError();
+		fatal_error("RCC oscillators initialization failed");
 	}
 	/** Activate the Over-Drive mode
 	 */
 	if (HAL_PWREx_EnableOverDrive() != HAL_OK)
 	{
-		onFatalError();
+		fatal_error("over-drive mode activation failed");
 	}
 	/** Initializes the CPU, AHB and APB buses clocks
 	 */
@@ -65,7 +65,7 @@ void initDeviceClock()
 
 	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_6) != HAL_OK)
 	{
-		onFatalError();
+		fatal_error("CPU, AHB and APB buses clocks initialization failed");
 	}
 	PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_USART6
 			|RCC_PERIPHCLK_UART5|RCC_PERIPHCLK_UART7
@@ -87,7 +87,7 @@ void initDeviceClock()
 	PeriphClkInitStruct.Clk48ClockSelection = RCC_CLK48SOURCE_PLLSAIP;
 	if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
 	{
-		onFatalError();
+		fatal_error("RCC extended peripherals clocks initialization failed");
 	}
 }
 
@@ -104,9 +104,9 @@ void resetDevice()
 ///
 ///
 ///
-void onFatalError()
+void fatal_error(const char* hint, int code)
 {
-	
+	emb::fatal_error(hint, code);
 }
 
 
@@ -123,10 +123,7 @@ void onFatalError()
   */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-	while (1)
-	{
-
-	}
+	emb::fatal_error(reinterpret_cast<const char*>(file), line);
 }
 #endif /* USE_FULL_ASSERT */
 

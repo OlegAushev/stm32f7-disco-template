@@ -80,7 +80,7 @@ void MX_FMC_Init(void)
 
 	if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK)
 	{
-		mcu::onFatalError();
+		mcu::fatal_error("SRAM1 initialization failed");
 	}
 
 	/** Perform the SRAM2 memory initialization sequence
@@ -115,7 +115,7 @@ void MX_FMC_Init(void)
 
 	if (HAL_SRAM_Init(&hsram2, &Timing, NULL) != HAL_OK)
 	{
-		mcu::onFatalError();
+		mcu::fatal_error("SRAM2 initialization failed");
 	}
 
 }

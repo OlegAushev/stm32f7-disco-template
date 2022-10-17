@@ -14,9 +14,9 @@ const char* PROMPT_BEGIN = CLI_PROMPT_BEGIN;
 const char* PROMPT_END = CLI_PROMPT_END;
 
 
-emb::IUart* Server::s_uart = static_cast<emb::IUart*>(NULL);
-emb::IGpioOutput* Server::s_pinRTS = static_cast<emb::IGpioOutput*>(NULL);
-emb::IGpioInput* Server::s_pinCTS = static_cast<emb::IGpioInput*>(NULL);
+emb::IUart* Server::s_uart = nullptr;
+emb::IGpioOutput* Server::s_pinRTS = nullptr;
+emb::IGpioInput* Server::s_pinCTS = nullptr;
 
 char Server::PROMPT[CLI_PROMPT_MAX_LENGTH] = {0};
 emb::String<CLI_CMDLINE_MAX_LENGTH> Server::s_cmdline;
@@ -76,6 +76,8 @@ Server::Server(const char* deviceName, emb::IUart* uart, emb::IGpioOutput* pinRT
 ///
 void Server::run()
 {
+	if (!s_uart) return;
+
 	if (!s_outputBuf.empty())
 	{
 		if (s_uart->send(s_outputBuf.front()))
@@ -123,6 +125,7 @@ void Server::print(const char* str)
 ///
 void Server::printBlocking(const char* str)
 {
+	if (!s_uart) return;
 	s_uart->send(str, strlen(str));
 }
 

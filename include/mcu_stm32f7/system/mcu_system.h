@@ -19,6 +19,8 @@
 #pragma once
 
 
+#include "emb/emb_core.h"
+
 #include "../mcu_def.h"
 
 
@@ -52,7 +54,7 @@ void resetDevice();
  * @param (none)
  * @return (none) 
  */
-void onFatalError();
+void fatal_error(const char* hint, int code = 0);
 
 
 /**
@@ -65,6 +67,24 @@ inline void delay_ms(uint32_t delay)
 {
 	HAL_Delay(delay);
 }
+
+
+/**
+ * @brief Enables maskable interrupts.
+ * 
+ * @param (none)
+ * @return (none)
+ */
+inline void enableInterrupts() { __enable_irq(); }
+
+
+/**
+ * @brief Disables maskable interrupts.
+ * 
+ * @param (none)
+ * @return (none)
+ */
+inline void disableInterrupts() { __disable_irq(); }
 
 
 /**

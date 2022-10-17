@@ -95,13 +95,13 @@ public:
 		else if constexpr (Module == 6)	{ __HAL_RCC_USART6_CLK_ENABLE(); m_handle.Instance = USART6; }
 		else if constexpr (Module == 7)	{ __HAL_RCC_UART7_CLK_ENABLE(); m_handle.Instance = UART7; }
 		else if constexpr (Module == 8)	{ __HAL_RCC_UART8_CLK_ENABLE(); m_handle.Instance = UART8; }
-		else { onFatalError(); }
+		else { fatal_error("invalid UART module"); }
 
 		m_handle.Init = cfg.base;
 		m_handle.AdvancedInit = cfg.advanced;
 		if (HAL_UART_Init(&m_handle) != HAL_OK)
 		{
-			onFatalError();
+			fatal_error("UART initialization failed");
 		}
 	}
 	
