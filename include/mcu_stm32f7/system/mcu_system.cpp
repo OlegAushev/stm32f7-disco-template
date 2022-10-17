@@ -97,7 +97,7 @@ void initDeviceClock()
 ///
 void resetDevice()
 {
-	NVIC_SystemReset();
+	HAL_NVIC_SystemReset();
 }
 
 

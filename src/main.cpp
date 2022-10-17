@@ -86,11 +86,10 @@ int main()
 	bsp::buttonWakeup.enableInterrupts();
 
 
-
 	while (1)
 	{
 		mcu::SystemClock::runTasks();
-		//bsp::LCD_st7789h2::instance().print(1, std::to_string(mcu::SystemClock::now()).c_str());
+		bsp::LCD_st7789h2::instance().print(1, std::to_string(mcu::SystemClock::now()).c_str());
 		cliServer.run();
 	}
 }

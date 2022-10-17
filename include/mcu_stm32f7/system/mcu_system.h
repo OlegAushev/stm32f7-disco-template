@@ -67,6 +67,21 @@ inline void delay_ms(uint32_t delay)
 }
 
 
+/**
+ * @brief Critical Section class.
+ * 
+ */
+class CriticalSection
+{
+public:
+	CriticalSection() { __disable_irq(); }	// disable interrupts
+	~CriticalSection() { __enable_irq(); }	// enable interrupts
+	static void enter() { __disable_irq(); }
+	static void leave() { __enable_irq(); }
+};
+#define critical_section CriticalSection EMB_UNIQ_ID(__LINE__)
+
+
 /// @}
 } // namespace mcu
 
