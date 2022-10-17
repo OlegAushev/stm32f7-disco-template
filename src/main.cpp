@@ -85,6 +85,8 @@ int main()
 	bsp::wakeupButton.initInterrupt(bsp::onWakeupButtonInterrupt, mcu::InterruptPriority(2));
 	bsp::wakeupButton.enableInterrupts();
 
+	emb::fatal_error("fatal error test");
+
 	while (1)
 	{
 		bsp::LCD_st7789h2::instance().print(1, std::to_string(mcu::SystemClock::now()).c_str());
@@ -95,6 +97,10 @@ int main()
 
 
 
+/**
+ * @brief 
+ * 
+ */
 void bsp::onWakeupButtonInterrupt()
 {
 	bsp::LCD_st7789h2::instance().clearLine(2);
@@ -107,3 +113,22 @@ void bsp::onWakeupButtonInterrupt()
 		bsp::LCD_st7789h2::instance().print(2, "released");
 	}
 }
+
+
+/**
+ * @brief Fatal error callback.
+ * 
+ * @param hint 
+ * @param code 
+ */
+void emb::fatal_error_cb(const char* hint, int code)
+{
+	cli::nextline_blocking();
+	cli::print_blocking("Fatal error occurred: ");
+	cli::print_blocking(hint);
+	cli::nextline_blocking();
+	cli::print_blocking("Terminate...");
+	cli::nextline_blocking();
+}
+
+

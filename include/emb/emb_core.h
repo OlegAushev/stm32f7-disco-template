@@ -13,6 +13,8 @@
 #pragma once
 
 
+#include <functional>
+
 #include "emb_def.h"
 
 
@@ -21,7 +23,7 @@ namespace emb {
 
 inline void empty_function()
 {
-
+	/* DO NOTHING */
 }
 
 
@@ -31,8 +33,12 @@ inline void empty_function()
 }
 
 
-[[ noreturn ]] inline void fatal_error(const char* hint, int num = 0)
-{
+void fatal_error_cb(const char* hint, int code);
+
+
+[[ noreturn ]] inline void fatal_error(const char* hint, int code = 0)
+{	
+	fatal_error_cb(hint, code);
 	while (true) {}
 }
 

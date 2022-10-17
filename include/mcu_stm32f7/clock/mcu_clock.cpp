@@ -32,6 +32,8 @@ void SystemClock::init()
 	m_taskPeriods.fill(0);
 	m_taskTimestamps.fill(0);
 	m_tasks.fill(emptyTask);
+	
+	setInitialized();
 }
 
 
