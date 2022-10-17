@@ -51,7 +51,7 @@ int main()
 	/* BSP */
 	bsp::initLedRed();
 	bsp::initLedGreen();
-	bsp::initWakeupButton();
+	bsp::initButtonWakeup();
 	bsp::initPmod(bsp::PmodConfiguration::UART);
 	
 	bsp::LCD_st7789h2::init(&Font16);
@@ -82,8 +82,8 @@ int main()
 	mcu::SystemClock::init();
 
 	/* TEST */
-	bsp::wakeupButton.initInterrupt(bsp::onWakeupButtonInterrupt, mcu::InterruptPriority(2));
-	bsp::wakeupButton.enableInterrupts();
+	bsp::buttonWakeup.initInterrupt(bsp::onButtonWakeupInterrupt, mcu::InterruptPriority(2));
+	bsp::buttonWakeup.enableInterrupts();
 
 	emb::fatal_error("fatal error test");
 
@@ -101,10 +101,10 @@ int main()
  * @brief 
  * 
  */
-void bsp::onWakeupButtonInterrupt()
+void bsp::onButtonWakeupInterrupt()
 {
 	bsp::LCD_st7789h2::instance().clearLine(2);
-	if (bsp::wakeupButton.read() == emb::PinState::ACTIVE)
+	if (bsp::buttonWakeup.read() == emb::PinState::ACTIVE)
 	{
 		bsp::LCD_st7789h2::instance().print(2, "pressed");
 	}

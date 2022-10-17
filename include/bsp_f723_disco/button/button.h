@@ -20,10 +20,10 @@
 namespace bsp {
 
 
-extern mcu::gpio::Input wakeupButton;
-extern const mcu::gpio::Config wakeupButtonConfig;
-void initWakeupButton();
-void onWakeupButtonInterrupt();
+extern mcu::gpio::Input buttonWakeup;
+extern const mcu::gpio::Config buttonWakeupConfig;
+void initButtonWakeup();
+void onButtonWakeupInterrupt();
 
 
 } // namespace bsp
