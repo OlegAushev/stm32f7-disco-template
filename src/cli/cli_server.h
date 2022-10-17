@@ -31,23 +31,23 @@ class Server
 	friend void print(const char* str);
 	friend void print_blocking(const char* str);
 private:
-	static emb::IUart* s_uart;
-	static emb::IGpioOutput* s_pinRTS;
-	static emb::IGpioInput* s_pinCTS;
+	static inline emb::IUart* s_uart {nullptr};
+	static inline emb::IGpioOutput* s_pinRTS {nullptr};
+	static inline emb::IGpioInput* s_pinCTS {nullptr};
 
-	static char PROMPT[CLI_PROMPT_MAX_LENGTH];
-	static emb::String<CLI_CMDLINE_MAX_LENGTH> s_cmdline;
-	static emb::String<CLI_ESCSEQ_MAX_LENGTH> s_escseq;
+	static inline char PROMPT[CLI_PROMPT_MAX_LENGTH] {};
+	static inline emb::String<CLI_CMDLINE_MAX_LENGTH> s_cmdline;
+	static inline emb::String<CLI_ESCSEQ_MAX_LENGTH> s_escseq;
 
-	static size_t s_cursorPos;
+	static inline size_t s_cursorPos {0};
 
-	static emb::Queue<char, CLI_OUTBUT_BUFFER_LENGTH> s_outputBuf;
+	static inline emb::Queue<char, CLI_OUTBUT_BUFFER_LENGTH> s_outputBuf;
 
 #ifdef CLI_USE_HISTORY
-	static emb::CircularBuffer<emb::String<CLI_CMDLINE_MAX_LENGTH>, CLI_HISTORY_LENGTH> s_history;
-	static size_t s_lastCmdHistoryPos;
-	static size_t s_historyPosition;
-	static bool s_newCmdSaved;
+	static inline emb::CircularBuffer<emb::String<CLI_CMDLINE_MAX_LENGTH>, CLI_HISTORY_LENGTH> s_history;
+	static inline size_t s_lastCmdHistoryPos {0};
+	static inline size_t s_historyPosition {0};
+	static inline bool s_newCmdSaved {false};
 #endif
 
 private:

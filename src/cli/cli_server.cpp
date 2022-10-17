@@ -14,25 +14,6 @@ const char* PROMPT_BEGIN = CLI_PROMPT_BEGIN;
 const char* PROMPT_END = CLI_PROMPT_END;
 
 
-emb::IUart* Server::s_uart = nullptr;
-emb::IGpioOutput* Server::s_pinRTS = nullptr;
-emb::IGpioInput* Server::s_pinCTS = nullptr;
-
-char Server::PROMPT[CLI_PROMPT_MAX_LENGTH] = {0};
-emb::String<CLI_CMDLINE_MAX_LENGTH> Server::s_cmdline;
-emb::String<CLI_ESCSEQ_MAX_LENGTH> Server::s_escseq;
-
-size_t Server::s_cursorPos = 0;
-
-emb::Queue<char, CLI_OUTBUT_BUFFER_LENGTH> Server::s_outputBuf;
-
-#ifdef CLI_USE_HISTORY
-emb::CircularBuffer<emb::String<CLI_CMDLINE_MAX_LENGTH>, CLI_HISTORY_LENGTH> Server::s_history;
-size_t Server::s_lastCmdHistoryPos = 0;
-size_t Server::s_historyPosition = 0;
-bool Server::s_newCmdSaved = false;
-#endif
-
 int (*Server::exec)(int argc, const char** argv) = Server::execNull;
 
 
