@@ -22,18 +22,43 @@ void MX_FMC_Init();
 ///
 ///
 ///
-LCD_st7789h2::LCD_st7789h2(sFONT* font)
+LCD_st7789h2::LCD_st7789h2(FontSize fontSize)
 {
-	assert(font != nullptr);
-
 	MX_FMC_Init();
 	BSP_LCD_Init();
-	BSP_LCD_Clear(LCD_COLOR_BLACK);
-	BSP_LCD_Clear(LCD_COLOR_BLACK);
-	BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
-	BSP_LCD_SetBackColor(LCD_COLOR_BLACK);
+	clear(LcdColor::BLACK);
+	setFont(fontSize, LcdColor::GREEN, LcdColor::BLACK);
+}
+
+
+///
+///
+///
+void LCD_st7789h2::clear(LcdColor color)
+{
+	BSP_LCD_Clear(static_cast<uint16_t>(color));
+}
+
+///
+///
+///
+void LCD_st7789h2::setFont(FontSize fontSize, LcdColor fontColor, LcdColor backColor)
+{
+	sFONT* font = nullptr;
+
+	if (fontSize == FontSize::HEIGHT_8) { CHAR_IN_LINE_MAX_COUNT = 48; font = &Font8; }
+	else if (fontSize == FontSize::HEIGHT_12) { CHAR_IN_LINE_MAX_COUNT = 34; font = &Font12; }
+	else if (fontSize == FontSize::HEIGHT_16) { CHAR_IN_LINE_MAX_COUNT = 21; font = &Font16; }
+	else if (fontSize == FontSize::HEIGHT_20) { CHAR_IN_LINE_MAX_COUNT = 17; font = &Font20; }
+	else if (fontSize == FontSize::HEIGHT_24) { CHAR_IN_LINE_MAX_COUNT = 14; font = &Font24; }
+	else { emb::fatal_error("LCD invalid font"); }
+
+	BSP_LCD_SetTextColor(static_cast<uint16_t>(fontColor));
+	BSP_LCD_SetBackColor(static_cast<uint16_t>(backColor));
 	BSP_LCD_SetFont(font);
 }
+
+
 
 
 SRAM_HandleTypeDef hsram1;

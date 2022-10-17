@@ -59,6 +59,7 @@
 		"stop_token": "cpp",
 		"streambuf": "cpp",
 		"typeinfo": "cpp",
-		"cassert": "cpp"
+		"cassert": "cpp",
+		"charconv": "cpp"
 	},
 }

@@ -119,6 +119,7 @@ target_link_options(${executable} PRIVATE
 	-lstdc++
 	-Wl,--end-group
 	-Wl,--print-memory-usage
+	-u_printf_float			# allows to use printf with float
 )
 
 target_compile_features(${executable} PRIVATE

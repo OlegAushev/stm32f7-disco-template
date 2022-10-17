@@ -54,7 +54,8 @@ int main()
 	bsp::initButtonWakeup();
 	bsp::initPmod(bsp::PmodConfiguration::UART);
 	
-	bsp::LCD_st7789h2::init(&Font16);
+	bsp::LCD_st7789h2::init();
+	bsp::LCD_st7789h2::instance().setFont(bsp::FontSize::HEIGHT_16, bsp::LcdColor::GRAY, bsp::LcdColor::BLACK);
 	bsp::LCD_st7789h2::instance().print(0, version);
 
 	/* UART */
@@ -84,6 +85,8 @@ int main()
 	/* TEST */
 	bsp::buttonWakeup.initInterrupt(bsp::onButtonWakeupInterrupt, mcu::InterruptPriority(2));
 	bsp::buttonWakeup.enableInterrupts();
+	bsp::LCD_st7789h2::instance().print(4, "123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_");
+	bsp::LCD_st7789h2::instance().print(5, 3.1416f);
 
 	while (1)
 	{
