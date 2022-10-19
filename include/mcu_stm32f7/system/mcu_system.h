@@ -18,6 +18,7 @@
 
 
 #include "emb/emb_core.h"
+#include <cstdio>
 
 #include "../mcu_def.h"
 

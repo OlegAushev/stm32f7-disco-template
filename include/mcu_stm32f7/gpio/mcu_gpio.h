@@ -203,6 +203,7 @@ public:
 	 */
 	static void onInterrupt(size_t pinNo)
 	{
+		assert_param(pinNo <= 15);
 		s_interruptHandlers[pinNo]();
 	}
 };
