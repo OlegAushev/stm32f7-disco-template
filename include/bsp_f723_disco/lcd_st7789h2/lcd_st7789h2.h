@@ -105,8 +105,8 @@ public:
 	{
 		if constexpr (std::is_same<T, const char*>::value) { printChar(line, t); }
 		else if constexpr (std::is_floating_point<T>::value) { printFloat(line, t); }
-		else if constexpr (std::is_arithmetic<T>::value && std::is_signed<T>::value) { printInt(line, t); }
-		else if constexpr (std::is_arithmetic<T>::value && !std::is_signed<T>::value) { printUint(line, t); }
+		else if constexpr (std::is_arithmetic<T>::value && std::is_signed<T>::value) { printInt(line, int32_t(t)); }
+		else if constexpr (std::is_arithmetic<T>::value && !std::is_signed<T>::value) { printUint(line, uint32_t(t)); }
 		else { static_assert(std::is_same<T, const char*>::value
 				|| std::is_floating_point<T>::value
 				|| std::is_arithmetic<T>::value); }
@@ -134,7 +134,7 @@ private:
 		BSP_LCD_DisplayStringAtLine(line, reinterpret_cast<uint8_t*>(buf));
 	}
 
-		void printUint(uint16_t line, int32_t val)
+	void printUint(uint16_t line, uint32_t val)
 	{
 		char buf[PRINT_BUF_SIZE] = {};
 		snprintf(buf, PRINT_BUF_SIZE, "%lu", val);
@@ -144,6 +144,5 @@ private:
 
 
 } // namespace bsp
-
 
 
