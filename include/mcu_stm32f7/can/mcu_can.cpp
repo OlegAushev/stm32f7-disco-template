@@ -1,29 +1,29 @@
 /**
- * @file mcu_uart.cpp
- * @ingroup mcu mcu_uart
+ * @file mcu_can.cpp
+ * @ingroup mcu mcu_can
  * @author Oleg Aushev (aushevom@protonmail.com)
  * @brief 
  * @version 0.1
- * @date 2022-10-15
+ * @date 2022-10-19
  * 
  * @copyright Copyright (c) 2022
  * 
  */
 
 
-#include "mcu_uart.h"
+#include "mcu_can.h"
 
 
 namespace mcu {
 
 
-namespace uart {
+namespace can {
 
 
-	
 
 
-} // namespace uart
+
+} // namespace can
 
 
 } // namespace mcu

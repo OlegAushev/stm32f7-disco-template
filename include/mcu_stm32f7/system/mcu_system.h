@@ -1,12 +1,10 @@
 /**
- * @defgroup mcu MCU
- *
  * @defgroup mcu_system System
  * @ingroup mcu
  * 
  * @file mcu_system.h
  * @ingroup mcu mcu_system
- * @author your name (you@domain.com)
+ * @author Oleg Aushev (aushevom@protonmail.com)
  * @brief 
  * @version 0.1
  * @date 2022-08-16

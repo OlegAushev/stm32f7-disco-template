@@ -1,5 +1,6 @@
 /**
  * @file mcu_gpio.cpp
+ * @ingroup mcu mcu_gpio
  * @author Oleg Aushev (aushevom@protonmail.com)
  * @brief 
  * @version 0.1

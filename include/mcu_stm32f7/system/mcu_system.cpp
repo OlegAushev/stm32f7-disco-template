@@ -1,7 +1,7 @@
 /**
  * @file mcu_system.cpp
- * @ingroup mcu_system
- * @author your name (you@domain.com)
+ * @ingroup mcu mcu_system
+ * @author Oleg Aushev (aushevom@protonmail.com)
  * @brief 
  * @version 0.1
  * @date 2022-08-16

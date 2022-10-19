@@ -1,5 +1,8 @@
 /**
+ * @defgroup mcu MCU
+ *
  * @file mcu_def.h
+ * @ingroup mcu
  * @author Oleg Aushev (aushevom@protonmail.com)
  * @brief 
  * @version 0.1

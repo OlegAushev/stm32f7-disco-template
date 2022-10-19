@@ -1,5 +1,9 @@
 /**
+ * @defgroup mcu_uart UART
+ * @ingroup mcu
+ * 
  * @file mcu_uart.h
+ * @ingroup mcu mcu_uart
  * @author Oleg Aushev (aushevom@protonmail.com)
  * @brief 
  * @version 0.1

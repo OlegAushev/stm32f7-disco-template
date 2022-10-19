@@ -1,5 +1,9 @@
 /**
+ * @defgroup mcu_gpio GPIO
+ * @ingroup mcu
+ * 
  * @file mcu_gpio.h
+ * @ingroup mcu mcu_gpio
  * @author Oleg Aushev (aushevom@protonmail.com)
  * @brief 
  * @version 0.1
