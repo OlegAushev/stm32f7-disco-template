@@ -86,7 +86,9 @@ int main()
 	bsp::buttonWakeup.initInterrupt(bsp::onButtonWakeupInterrupt, mcu::InterruptPriority(2));
 	bsp::buttonWakeup.enableInterrupts();
 	bsp::LCD_st7789h2::instance().print(4, "123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_123456789_");
-	bsp::LCD_st7789h2::instance().print(5, 3.1416f);
+	bsp::LCD_st7789h2::instance().print(5, -3.1416f);
+	bsp::LCD_st7789h2::instance().print(6, -101);
+	bsp::LCD_st7789h2::instance().print(7, uint64_t(42));
 
 	while (1)
 	{

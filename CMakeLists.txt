@@ -102,8 +102,8 @@ target_compile_options(${executable} PRIVATE
 		-Wold-style-cast
 		-Wuseless-cast
 		-Wsuggest-override>
-	$<$<CONFIG:Debug>:-Og -g3 -ggdb>
-	$<$<CONFIG:Release>:-Og -g0>
+	$<$<CONFIG:Debug>:-O0 -g3 -ggdb>
+	$<$<CONFIG:Release>:-O3 -g0>
 )
 
 ################################################################################

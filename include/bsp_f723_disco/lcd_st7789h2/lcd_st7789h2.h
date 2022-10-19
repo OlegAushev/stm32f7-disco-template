@@ -77,6 +77,7 @@ private:
 	}
 
 	size_t CHAR_IN_LINE_MAX_COUNT {0};
+	static constexpr size_t PRINT_BUF_SIZE = 64;
 
 public:
 	static void init(FontSize fontSize = FontSize::HEIGHT_8)
@@ -114,15 +115,29 @@ public:
 private:
 	void printChar(uint16_t line, const char* str)
 	{
-		char buf[64] = {};
+		char buf[PRINT_BUF_SIZE] = {};
 		strncpy(buf, str, CHAR_IN_LINE_MAX_COUNT);
 		BSP_LCD_DisplayStringAtLine(line, reinterpret_cast<uint8_t*>(buf));
 	}
 
 	void printFloat(uint16_t line, double val)
 	{
-		char buf[64] = {};
+		char buf[PRINT_BUF_SIZE] = {};
 		snprintf(buf, CHAR_IN_LINE_MAX_COUNT, "%.2f", val);
+		BSP_LCD_DisplayStringAtLine(line, reinterpret_cast<uint8_t*>(buf));
+	}
+
+	void printInt(uint16_t line, int32_t val)
+	{
+		char buf[PRINT_BUF_SIZE] = {};
+		snprintf(buf, PRINT_BUF_SIZE, "%ld", val);
+		BSP_LCD_DisplayStringAtLine(line, reinterpret_cast<uint8_t*>(buf));
+	}
+
+		void printUint(uint16_t line, int32_t val)
+	{
+		char buf[PRINT_BUF_SIZE] = {};
+		snprintf(buf, PRINT_BUF_SIZE, "%lu", val);
 		BSP_LCD_DisplayStringAtLine(line, reinterpret_cast<uint8_t*>(buf));
 	}
 };
