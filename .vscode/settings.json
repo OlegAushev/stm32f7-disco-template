@@ -60,6 +60,7 @@
 		"streambuf": "cpp",
 		"typeinfo": "cpp",
 		"cassert": "cpp",
-		"charconv": "cpp"
+		"charconv": "cpp",
+		"ios": "cpp"
 	},
 }

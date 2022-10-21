@@ -61,13 +61,15 @@ int main()
 	/* UART */
 	mcu::uart::RxPinConfig uart7RxPinCfg = {.port = PMOD3_RX_PORT, .pin = PMOD3_RX_PIN, .afSelection = GPIO_AF8_UART7};
 	mcu::uart::TxPinConfig uart7TxPinCfg = {.port = PMOD2_TX_PORT, .pin = PMOD2_TX_PIN, .afSelection = GPIO_AF8_UART7};
-	mcu::uart::Config uart7Cfg = {	.base = {	.BaudRate = 9600,
-							.WordLength = UART_WORDLENGTH_8B,
-							.StopBits = UART_STOPBITS_1,
-							.Parity = UART_PARITY_NONE,
-							.Mode = UART_MODE_TX_RX,
-							.HwFlowCtl = UART_HWCONTROL_NONE},
-					.advanced = {	.AdvFeatureInit = UART_ADVFEATURE_NO_INIT}};
+	mcu::uart::Config uart7Cfg = {	.init = {	
+						.BaudRate = 9600,
+						.WordLength = UART_WORDLENGTH_8B,
+						.StopBits = UART_STOPBITS_1,
+						.Parity = UART_PARITY_NONE,
+						.Mode = UART_MODE_TX_RX,
+						.HwFlowCtl = UART_HWCONTROL_NONE},
+					.advanced = {
+						.AdvFeatureInit = UART_ADVFEATURE_NO_INIT}};
 	mcu::uart::Uart<7> uart7(uart7RxPinCfg, uart7TxPinCfg, uart7Cfg);
 
 	/* CLI */

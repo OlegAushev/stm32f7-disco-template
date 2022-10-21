@@ -49,7 +49,7 @@ struct TxPinConfig
 
 struct Config
 {
-	UART_InitTypeDef base;
+	UART_InitTypeDef init;
 	UART_AdvFeatureInitTypeDef advanced;
 };
 
@@ -75,7 +75,7 @@ public:
 	{
 		static_assert(Module >= 1 && Module <= 8);
 
-		rxPin.init({.port = rxPinCfg.port, 
+		rxPin.init({	.port = rxPinCfg.port, 
 				.pin = {.Pin = rxPinCfg.pin,
 					.Mode = GPIO_MODE_AF_PP,
 					.Pull = GPIO_PULLUP,
@@ -83,7 +83,7 @@ public:
 					.Alternate = rxPinCfg.afSelection},
 				.activeState = emb::PinActiveState::HIGH});
 				
-		txPin.init({.port = txPinCfg.port,
+		txPin.init({	.port = txPinCfg.port,
 				.pin = {.Pin = txPinCfg.pin,
 					.Mode = GPIO_MODE_AF_PP,
 					.Pull = GPIO_PULLUP,
@@ -101,11 +101,11 @@ public:
 		else if constexpr (Module == 8)	{ __HAL_RCC_UART8_CLK_ENABLE(); m_handle.Instance = UART8; }
 		else { fatal_error("invalid UART module"); }
 
-		m_handle.Init = cfg.base;
+		m_handle.Init = cfg.init;
 		m_handle.AdvancedInit = cfg.advanced;
 		if (HAL_UART_Init(&m_handle) != HAL_OK)
 		{
-			fatal_error("UART initialization failed");
+			fatal_error("UART module initialization failed");
 		}
 	}
 	
