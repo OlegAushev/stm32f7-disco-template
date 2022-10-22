@@ -16,11 +16,10 @@
 #include "stm32f723e_discovery.h"
 
 
+#define STMOD_CAN_TX_PORT	GPIOH
+#define STMOD_CAN_TX_PIN	GPIO_PIN_13
 
-
-
-
-
-
+#define STMOD_CAN_RX_PORT	GPIOH
+#define STMOD_CAN_RX_PIN	GPIO_PIN_14
 
 
